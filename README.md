@@ -13,7 +13,7 @@
 
 ## Tema
 ### Descripción
-*2 a 6 líneas describiendo el negocio (menos es más)*
+*El sistema tiene como objetivo conectar a productores agropecuarios con contratistas que ofrecen servicios rurales como siembra, cosecha, fumigación, entre otros trabajos vinculados al campo. Los usuarios podrán registrarse en la plataforma bajo el rol de Productor o Contratista, accediendo a funcionalidades específicas según su perfil. La aplicación permitirá la publicación de servicios por parte de los contratistas, y la búsqueda y contratación de servicios por parte de los productores, priorizando la proximidad geográfica y el tipo de tarea requerida.*
 
 ### Modelo
 ![imagen del modelo]()
