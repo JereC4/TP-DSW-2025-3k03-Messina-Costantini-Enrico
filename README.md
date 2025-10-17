@@ -1,14 +1,10 @@
-# TP-DSW-2025-3k03-Messina-Costantini-Enrico
+# TP-DSW-2025-3k03-Messina-Costantini
 
 ## Grupo
 ### Integrantes
 * 53112 - Costantini, Jeremías
-* 53004 - Enrico, Mateo
 * 52911 - Messina, Tiziano Leonel
 
-### Repositorios
-* [frontend app](http://hyperlinkToGihubOrGitlab)
-* [backend app](http://hyperlinkToGihubOrGitlab)
 
 ## Tema
 ### Descripción
