@@ -1,15 +1,25 @@
-import express from "express";
-import { prisma } from "@repo/db";
+import express, { Request, Response, NextFunction } from 'express'
+import { User } from './user/user.entity.js';
 
-const app = express();
+const app = express()
 app.use(express.json());
 
-app.get("/api/health", async (_req, res) => {
-  const [{ now }] = await prisma.$queryRaw<{ now: Date }[]>`SELECT NOW() as now`;
-  res.json({ ok: true, now });
+//Luego de los middlewares base
+
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
 });
 
-const PORT = process.env.PORT ? Number(process.env.PORT) : 3001;
-app.listen(PORT, () => {
-  console.log(`API listening on http://localhost:${PORT}`);
+//Antes de las rutas y middlewares de negocio
+
+
+//app.use('/users', userRouter());
+
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not Found' });
 });
+
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+})
