@@ -1,25 +1,9 @@
-import express, { Request, Response, NextFunction } from 'express'
-import { User } from './user/user.entity.js';
+import { createApp } from './core/http/expressApp.js';
+const PORT = Number(process.env.PORT ?? 3000);
 
-const app = express()
-app.use(express.json());
+// Esto lo usamos para evitar el error de BigInt cant be serialized
+(BigInt.prototype as any).toJSON = function () {
+  return Number(this);
+};
 
-//Luego de los middlewares base
-
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
-
-//Antes de las rutas y middlewares de negocio
-
-
-//app.use('/users', userRouter());
-
-app.use((req, res) => {
-  res.status(404).json({ error: 'Not Found' });
-});
-
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
-})
+createApp().listen(PORT, () => console.log(`API is listening on: http://localhost:${PORT}`));
