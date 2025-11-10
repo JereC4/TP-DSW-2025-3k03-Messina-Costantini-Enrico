@@ -21,7 +21,7 @@ Accept: application/json
 ###
 
 ### Actualizar provincia
-PUT http://localhost:3000/provincias/9
+PUT http://localhost:3000/provincias/13
 Content-Type: application/json
 
 {
@@ -31,4 +31,4 @@ Content-Type: application/json
 ###
 
 ### Eliminar provincia
-DELETE http://localhost:3000/provincias/9
+DELETE http://localhost:3000/provincias/13

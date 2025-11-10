@@ -1,6 +1,6 @@
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
 import ProvinciasPage from './pages/ProvinciasPage'
-//import LocalidadesPage from './pages/LocalidadesPage'
+import LocalidadesPage from './pages/LocalidadesPage'
 
 export default function App() {
   return (
@@ -16,7 +16,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<div>Bienvenido 👋 Elegí una sección.</div>} />
         <Route path="/provincias" element={<ProvinciasPage />} />
-        {/* <Route path="/localidades" element={<LocalidadesPage />} /> */}
+        <Route path="/localidades" element={<LocalidadesPage />} />
         <Route path="*" element={<div>404 — Página no encontrada</div>} />
       </Routes>
     </div>

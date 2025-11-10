@@ -1,0 +1,34 @@
+### Lista (todas o filtradas por provincia)
+GET http://localhost:3000/localidades
+Accept: application/json
+
+###
+GET http://localhost:3000/localidades?id_provincia=1
+Accept: application/json
+
+### Crear
+POST http://localhost:3000/localidades
+Content-Type: application/json
+
+{
+  "id_provincia": 1,
+  "nombre": "Mi Localidad",
+  "codigo_postal": "5000"
+}
+
+### Obtener por ID
+GET http://localhost:3000/localidades/1
+Accept: application/json
+
+### Update
+PUT http://localhost:3000/localidades/1
+Content-Type: application/json
+
+{
+  "id_provincia": 1,
+  "nombre": "Mi Localidad Editada",
+  "codigo_postal": "5001"
+}
+
+### Delete
+DELETE http://localhost:3000/localidades/1

@@ -1,8 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import provinciaRouter from '../../modules/provincia/provincia.router';
-import { errorMiddleware } from '../errors/errorMiddleware';
+
+// Routers
+import provinciaRouter from '../../modules/provincia/provincia.router.js';
+import localidadRouter from '../../modules/localidad/localidad.router.js';
+
+// Middlewares
+import { errorMiddleware } from '../errors/errorMiddleware.js';
 
 export function createApp() {
   const app = express();
@@ -10,6 +15,7 @@ export function createApp() {
   app.use(express.json());
   app.use(morgan('dev'));
   app.use('/provincias', provinciaRouter);
+  app.use('/localidades', localidadRouter);
   app.use(errorMiddleware);
   return app;
 }
