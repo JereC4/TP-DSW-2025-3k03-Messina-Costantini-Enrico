@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getProvincias } from '../api/provincias';
 import {
-  createLocalidad, deleteLocalidad, getLocalidades, updateLocalidad,
+  createLocalidad, deleteLocalidad, getLocalidades, //updateLocalidad,
   type Localidad
 } from '../api/localidades';
 

@@ -17,5 +17,5 @@ export const provinciaRepo = {
   remove: (id: bigint) => prisma.provincia.delete({ where: { id_provincia: id } }),
 
   hasLocalidades: (id: bigint) =>
-    prisma.localidad.count({ where: { id_provincia: id } }).then(c => c > 0),
+    prisma.localidad.count({ where: { id_provincia: id } }).then((c: number) => c > 0),
 };
