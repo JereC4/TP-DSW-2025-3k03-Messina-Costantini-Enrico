@@ -1,0 +1,36 @@
+### Listar (q, por localidad y por rol)
+GET http://localhost:3000/usuarios?q=juan&id_localidad=1&role=CLIENTE
+Accept: application/json
+
+###
+# Crear usuario
+POST http://localhost:3000/usuarios
+Content-Type: application/json
+
+{
+  "email": "juan@example.com",
+  "password": "secreto123",
+  "nombre": "Juan",
+  "apellido": "Pérez",
+  "id_localidad": 1,
+  "roles": ["CLIENTE"]
+}
+
+###
+# Detalle
+GET http://localhost:3000/usuarios/1
+Accept: application/json
+
+###
+# Actualizar (cambia rol y localidad)
+PUT http://localhost:3000/usuarios/1
+Content-Type: application/json
+
+{
+  "id_localidad": null,
+  "roles": ["ADMIN", "CLIENTE"]
+}
+
+###
+# Borrar
+DELETE http://localhost:3000/usuarios/1
