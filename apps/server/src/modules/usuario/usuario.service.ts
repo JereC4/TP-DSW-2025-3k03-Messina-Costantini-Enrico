@@ -25,32 +25,67 @@ export const usuarioService = {
   },
 
   create: async (dto: UsuarioCreateDto) => {
-    try {
-      const password_hash = await bcrypt.hash(dto.password, 10);
-      const roleIds = await rolesByNames(dto.roles ?? []);
-      return await usuarioRepo.create({
-        email: dto.email.toLowerCase().trim(),
-        password_hash,
-        nombre: dto.nombre.trim(),
-        apellido: dto.apellido.trim(),
-        cuil_cuit: dto.cuil_cuit?.trim() ?? null,
-        fecha_nac: dto.fecha_nac ? new Date(dto.fecha_nac) : null,
-        domicilio: dto.domicilio?.trim() ?? null,
-        id_localidad: dto.id_localidad ?? null,
-        roleIds,
+  try {
+    const password_hash = await bcrypt.hash(dto.password, 10);
+    const roleIds = await rolesByNames(dto.roles ?? []);
+
+    const createdUser = await usuarioRepo.create({
+      email: dto.email.toLowerCase().trim(),
+      password_hash,
+      nombre: dto.nombre.trim(),
+      apellido: dto.apellido.trim(),
+      cuil_cuit: dto.cuil_cuit?.trim() ?? null,
+      fecha_nac: dto.fecha_nac ? new Date(dto.fecha_nac) : null,
+      domicilio: dto.domicilio?.trim() ?? null,
+      id_localidad: dto.id_localidad ?? null,
+      roleIds,
+    });
+
+    const roles = await prisma.roles.findMany({ select: { id_role: true, name: true } });
+    const roleId = (name: string) => roles.find(r => r.name === name)?.id_role ?? 0;
+
+    if (roleIds.includes(roleId("CLIENTE"))) {
+      await prisma.cliente_profile.upsert({
+        where: { id_user: createdUser.id_user },
+        update: {},
+        create: { id_user: createdUser.id_user },
       });
-    } catch (e: any) {
-      // UNIQUE email
-      if (e.code === 'P2002') {
-        throw { status: 409, code: 'DUPLICATE', message: 'Email ya registrado' };
-      }
-      // FK localidad inválida
-      if (e.code === 'P2003') {
-        throw { status: 400, code: 'FK_INVALID', message: 'Localidad inexistente' };
-      }
-      throw e;
+    } else {
+      await prisma.cliente_profile.deleteMany({ where: { id_user: createdUser.id_user } });
     }
-  },
+
+    if (roleIds.includes(roleId("PRESTAMISTA"))) {
+      await prisma.prestamista_profile.upsert({
+        where: { id_user: createdUser.id_user },
+        update: {},
+        create: { id_user: createdUser.id_user },
+      });
+    } else {
+      await prisma.prestamista_profile.deleteMany({ where: { id_user: createdUser.id_user } });
+    }
+
+    if (roleIds.includes(roleId("ADMIN"))) {
+      await prisma.admin_profile.upsert({
+        where: { id_user: createdUser.id_user },
+        update: {},
+        create: { id_user: createdUser.id_user },
+      });
+    } else {
+      await prisma.admin_profile.deleteMany({ where: { id_user: createdUser.id_user } });
+    }
+    return createdUser;
+    
+  } catch (e: any) {
+    if (e.code === "P2002") {
+      throw { status: 409, code: "DUPLICATE", message: "Email ya registrado" };
+    }
+    if (e.code === "P2003") {
+      throw { status: 400, code: "FK_INVALID", message: "Localidad inexistente" };
+    }
+    throw e;
+  }
+},
+
 
   update: async (id: bigint, dto: UsuarioUpdateDto) => {
     await usuarioService.get(id); // asegura 404 si no existe
@@ -83,6 +118,6 @@ export const usuarioService = {
 
   remove: async (id: bigint) => {
     await usuarioService.get(id);
-    return usuarioRepo.remove(id); // CASCADE limpia perfiles y user_roles según tu esquema.  
+    return usuarioRepo.remove(id);
   },
 };

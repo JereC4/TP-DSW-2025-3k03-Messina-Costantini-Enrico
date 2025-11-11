@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { login, signup, type AuthUser } from "../api/auth";
+import { login, RoleName, signup, type AuthUser } from "../api/auth";
 
 type FormState = {
   email: string;
   password: string;
   nombre: string;
   apellido: string;
+  rol: RoleName; 
 };
 
 export default function AuthPage() {
@@ -15,11 +16,12 @@ export default function AuthPage() {
     password: "",
     nombre: "",
     apellido: "",
+    rol: "CLIENTE", //CLIENTE COMO DEFAULT? (CAMBIARLO?)
   });
   const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-   useEffect(() => {
+  useEffect(() => {
     const raw = localStorage.getItem("auth:user");
     if (raw) {
       try {
@@ -30,7 +32,9 @@ export default function AuthPage() {
     }
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -50,40 +54,43 @@ export default function AuthPage() {
           password: form.password,
           nombre: form.nombre,
           apellido: form.apellido,
+          roles: [form.rol],
         });
         setUser(u);
         localStorage.setItem("auth:user", JSON.stringify(u));
       }
     } catch (e: unknown) {
       const message =
-        (e as { response?: { data?: { message?: string } } })?.response?.data?.message ??
+        (e as { response?: { data?: { message?: string } } })?.response?.data
+          ?.message ??
         (e instanceof Error ? e.message : "Error");
       setError(message);
     }
   };
 
   if (user) {
-  return (
-    <div style={{ maxWidth: 480, margin: "40px auto" }}>
-      <h2>Bienvenido, {user.nombre}!</h2>
-      <p>Email: {user.email}</p>
-      <p>Roles: {user.roles?.join(", ") || "(sin roles)"}</p>
+    return (
+      <div style={{ maxWidth: 480, margin: "40px auto" }}>
+        <h2>Bienvenido, {user.nombre}!</h2>
+        <p>Email: {user.email}</p>
+        <p>Roles: {user.roles?.join(", ") || "(sin roles)"}</p>
 
-      <button
-        onClick={() => {
-          setUser(null);
-          localStorage.removeItem("auth:user"); // 🟢 Borra sesión guardada
-        }}
-      >
-        Cerrar sesión
-      </button>
-    </div>
-  );
-}
+        <button
+          onClick={() => {
+            setUser(null);
+            localStorage.removeItem("auth:user");
+          }}
+        >
+          Cerrar sesión
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div style={{ maxWidth: 480, margin: "40px auto" }}>
       <h1>{isLogin ? "Iniciar sesión" : "Crear cuenta"}</h1>
+
       <form onSubmit={handleSubmit} style={{ display: "grid", gap: 8 }}>
         <input
           type="email"
@@ -101,6 +108,7 @@ export default function AuthPage() {
           onChange={handleChange}
           required
         />
+
         {!isLogin && (
           <>
             <input
@@ -117,17 +125,39 @@ export default function AuthPage() {
               onChange={handleChange}
               required
             />
+
+            {/* 🟢 Selector de rol */}
+            <label>
+              Tipo de usuario:
+              <select
+                name="rol"
+                value={form.rol}
+                onChange={handleChange}
+                required
+              >
+                <option value="CLIENTE">Cliente</option>
+                <option value="PRESTAMISTA">Prestamista</option>
+              </select>
+            </label>
           </>
         )}
+
         <button type="submit">{isLogin ? "Entrar" : "Registrarse"}</button>
       </form>
+
       {error && <p style={{ color: "red" }}>{error}</p>}
+
       <p style={{ marginTop: 12 }}>
         {isLogin ? "¿No tenés cuenta?" : "¿Ya tenés cuenta?"}{" "}
         <button
           type="button"
           onClick={() => setIsLogin((v) => !v)}
-          style={{ color: "blue", border: "none", background: "none", padding: 0 }}
+          style={{
+            color: "blue",
+            border: "none",
+            background: "none",
+            padding: 0,
+          }}
         >
           {isLogin ? "Crear una" : "Iniciar sesión"}
         </button>
