@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import provinciaRouter from '../../modules/provincia/provincia.router.js';
 import localidadRouter from '../../modules/localidad/localidad.router.js';
 import usuarioRouter from '../../modules/usuario/usuario.router.js';
+import authRouter from "../../modules/auth/auth.router.js";
 
 // Middlewares
 import { errorMiddleware } from '../errors/errorMiddleware.js';
@@ -18,6 +19,7 @@ export function createApp() {
   app.use('/provincias', provinciaRouter);
   app.use('/localidades', localidadRouter);
   app.use('/usuarios', usuarioRouter);
+  app.use("/auth", authRouter);
   app.use(errorMiddleware);
   return app;
 }
