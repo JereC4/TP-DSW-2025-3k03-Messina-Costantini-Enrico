@@ -10,6 +10,8 @@ import authRouter from "../../modules/auth/auth.router.js";
 import clienteRouter from "../../modules/cliente/cliente.router.js";
 import prestamistaRouter from "../../modules/prestamista/prestamista.router.js";
 import adminRouter from "../../modules/admin/admin.router.js";
+import { categoriaServicioRouter } from "../../modules/categoria-servicio/categoria-servicio.router.js";
+import { insumoRouter } from "../../modules/insumo/insumo.router.js";
 
 // Middlewares
 import { errorMiddleware } from '../errors/errorMiddleware.js';
@@ -26,6 +28,8 @@ export function createApp() {
   app.use("/clientes", clienteRouter);
   app.use("/prestamistas", prestamistaRouter);
   app.use("/admins", adminRouter);
+  app.use("/categorias-servicio", categoriaServicioRouter);
+  app.use("/insumo", insumoRouter);
   app.use(errorMiddleware);
   return app;
 }
