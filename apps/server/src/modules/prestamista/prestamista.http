@@ -1,0 +1,27 @@
+### listar
+GET http://localhost:3000/prestamistas
+Accept: application/json
+
+### crear (id_user debe existir; si ya tiene perfil → 409)
+POST http://localhost:3000/prestamistas
+Content-Type: application/json
+
+{
+  "id_user": 5,
+  "cuit": "20-12345678-3"
+}
+
+### detalle
+GET http://localhost:3000/prestamistas/5
+Accept: application/json
+
+### update
+PUT http://localhost:3000/prestamistas/5
+Content-Type: application/json
+
+{
+  "cuit": "20-98765432-1"
+}
+
+### delete
+DELETE http://localhost:3000/prestamistas/5

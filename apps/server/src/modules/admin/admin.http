@@ -1,0 +1,29 @@
+### listar
+GET http://localhost:3000/admins
+Accept: application/json
+
+### crear (si ya tiene perfil → 409; si id_user no existe → 400)
+POST http://localhost:3000/admins
+Content-Type: application/json
+
+{
+  "id_user": 1,
+  "area_responsable": "Operaciones",
+  "observaciones": "Admin principal"
+}
+
+### detalle
+GET http://localhost:3000/admins/1
+Accept: application/json
+
+### update (respetá null/undefined según quieras limpiar o no)
+PUT http://localhost:3000/admins/1
+Content-Type: application/json
+
+{
+  "area_responsable": "General",
+  "observaciones": null
+}
+
+### delete
+DELETE http://localhost:3000/admins/1

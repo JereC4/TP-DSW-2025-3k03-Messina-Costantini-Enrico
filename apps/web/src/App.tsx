@@ -1,26 +1,38 @@
-import { Link, NavLink, Route, Routes } from 'react-router-dom'
-import ProvinciasPage from './pages/ProvinciasPage'
-import LocalidadesPage from './pages/LocalidadesPage'
+import { NavLink, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 
 export default function App() {
   return (
-    <div style={{ padding: 16, maxWidth: 960, margin: '0 auto' }}>
-      <header style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 16 }}>
-        <Link to="/" style={{ fontWeight: 700 }}>Agro App</Link>
-        <nav style={{ display: 'flex', gap: 8 }}>
-          <NavLink to="/provincias">Provincias</NavLink>
-          <NavLink to="/localidades">Localidades</NavLink>
+    <div>
+      <header
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "12px 24px",
+          backgroundColor: "#2d6a4f",
+          color: "white",
+        }}
+      >
+        <NavLink to="/" style={{ color: "white", textDecoration: "none" }}>
+          <h2>AgroApp 🌾</h2>
+        </NavLink>
+        <nav style={{ display: "flex", gap: "16px" }}>
+          <NavLink
+            to="/auth"
+            style={{ color: "white", textDecoration: "none", fontWeight: 600 }}
+          >
+            Login / Signup
+          </NavLink>
         </nav>
       </header>
 
       <Routes>
-        <Route path="/" element={<div>Bienvenido 👋 Elegí una sección.</div>} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/provincias" element={<ProvinciasPage />} />
-        <Route path="/localidades" element={<LocalidadesPage />} />
-        <Route path="*" element={<div>404 — Página no encontrada</div>} />
+        <Route path="*" element={<div style={{ padding: 24 }}>404 — Página no encontrada</div>} />
       </Routes>
     </div>
-  )
+  );
 }

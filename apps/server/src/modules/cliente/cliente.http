@@ -1,0 +1,26 @@
+### listar
+GET http://localhost:3000/clientes
+
+### crear
+POST http://localhost:3000/clientes
+Content-Type: application/json
+
+{
+  "id_user": 3,
+  "actividad": "Productor agrícola",
+  "ingresos_mensuales": 150000
+}
+
+### detalle
+GET http://localhost:3000/clientes/3
+
+### update
+PUT http://localhost:3000/clientes/3
+Content-Type: application/json
+
+{
+  "actividad": "Productor y contratista"
+}
+
+### delete
+DELETE http://localhost:3000/clientes/3
