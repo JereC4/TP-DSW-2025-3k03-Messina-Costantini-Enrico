@@ -1,68 +1,33 @@
 import { prisma } from '../../../../../packages/database/src/client.js';
 
 export const categoriaServicioRepo = {
-  // Listado con búsqueda opcional por nombre/descripcion
-  list: (q?: string) =>
-    prisma.categoria.findMany({
-      where: {
-        ...(q
-          ? {
-              OR: [
-                { nombre: { contains: q } },
-                { descripcion: { contains: q } },
-              ],
-            }
-          : {}),
-      },
-      orderBy: [{ nombre: 'asc' }],
-    }),
+  list: (q?: string, page?: number, pageSize?: number) => {
+    const where = q
+      ? { OR: [{ nombre: { contains: q } }, { descripcion: { contains: q } }] }
+      : undefined;
 
-  // Obtener por id
-  getById: (id: bigint) =>
-    prisma.categoria.findUnique({
-      where: { id_categoria: id },
-    }),
+    // 🔒 Safe pagination: si NO mandás page/pageSize, no usa skip/take
+    const p = Number(page);
+    const ps = Number(pageSize);
+    const hasPaging = Number.isFinite(p) && Number.isFinite(ps) && p > 0 && ps > 0;
 
-  // Crear
-  create: (data: {
-    nombre: string;
-    descripcion?: string | null;
-  }) =>
-    prisma.$transaction(async (tx: any) => {
-      const cat = await tx.categoria.create({
-        data: {
-          nombre: data.nombre,
-          descripcion: data.descripcion ?? null,
-        },
-      });
+    return prisma.categoria.findMany({
+      where,
+      ...(hasPaging ? { skip: (p - 1) * ps, take: ps } : {}),
+      orderBy: { nombre: 'asc' },
+    });
+  },
 
-      return tx.categoria.findUnique({
-        where: { id_categoria: cat.id_categoria },
-      });
-    }),
+  getById: (id: number) =>
+    prisma.categoria.findUnique({ where: { id_categoria: id } }),
 
-  // Actualizar
-  update: (id: bigint, data: {
-    nombre?: string;
-    descripcion?: string | null;
-  }) =>
-    prisma.$transaction(async (tx: any) => {
-      const cat = await tx.categoria.update({
-        where: { id_categoria: id },
-        data: {
-          ...(data.nombre !== undefined ? { nombre: data.nombre } : {}),
-          ...(data.descripcion !== undefined ? { descripcion: data.descripcion } : {}),
-        },
-      });
+  create: (data: { nombre: string; descripcion?: string | null }) =>
+    prisma.categoria.create({ data }),
 
-      return tx.categoria.findUnique({
-        where: { id_categoria: cat.id_categoria },
-      });
-    }),
+  update: (id: number, data: Partial<{ nombre: string; descripcion?: string | null }>) =>
+    prisma.categoria.update({ where: { id_categoria: id }, data }),
 
-  // Eliminar
-  remove: (id: bigint) =>
-    prisma.categoria.delete({
-      where: { id_categoria: id },
-    }),
+  remove: (id: number) =>
+    prisma.categoria.delete({ where: { id_categoria: id } }),
 };
+

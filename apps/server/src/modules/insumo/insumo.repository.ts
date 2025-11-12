@@ -1,58 +1,50 @@
 import { prisma } from '../../../../../packages/database/src/client.js';
 
 export const insumoRepo = {
-  // Listar con búsqueda por nombre/descripcion
-  list: (q?: string) =>
-    prisma.insumo.findMany({
-      where: {
-        ...(q
-          ? {
-              OR: [
-                { nombre: { contains: q } },
-                { descripcion: { contains: q } },
-              ],
-            }
-          : {}),
+  list: (q?: string, page?: number, pageSize?: number) => {
+    const where = q
+      ? {
+          OR: [
+            { nombre: { contains: q } },
+            { descripcion: { contains: q } },
+          ],
+        }
+      : undefined;
+
+    const p = Number(page);
+    const ps = Number(pageSize);
+    const hasPaging = Number.isFinite(p) && Number.isFinite(ps) && p > 0 && ps > 0;
+
+    return prisma.insumo.findMany({
+      where,
+      ...(hasPaging ? { skip: (p - 1) * ps, take: ps } : {}),
+      orderBy: { nombre: 'asc' },
+    });
+  },
+
+  getById: (id: number) =>
+    prisma.insumo.findUnique({ where: { id_insumo: id } }),
+
+  create: (data: { nombre_insumo: string; descripcion_insumo?: string | null }) =>
+    prisma.insumo.create({
+      data: {
+        nombre: data.nombre_insumo,
+        descripcion: data.descripcion_insumo ?? null,
       },
-      orderBy: [{ nombre: 'asc' }],
     }),
 
-  // Obtener uno
-  getById: (id: bigint) =>
-    prisma.insumo.findUnique({
+  update: (
+    id: number,
+    data: Partial<{ nombre_insumo: string; descripcion_insumo?: string | null }>
+  ) =>
+    prisma.insumo.update({
       where: { id_insumo: id },
+      data: {
+        ...(data.nombre_insumo !== undefined ? { nombre: data.nombre_insumo } : {}),
+        ...(data.descripcion_insumo !== undefined ? { descripcion: data.descripcion_insumo } : {}),
+      },
     }),
 
-  // Crear
-  create: (data: { nombre: string; descripcion?: string | null }) =>
-    prisma.$transaction(async (tx: any) => {
-      const row = await tx.insumo.create({
-        data: {
-          nombre: data.nombre,
-          descripcion: data.descripcion ?? null,
-        },
-      });
-
-      return tx.insumo.findUnique({ where: { id_insumo: row.id_insumo } });
-    }),
-
-  // Actualizar
-  update: (id: bigint, data: { nombre?: string; descripcion?: string | null }) =>
-    prisma.$transaction(async (tx: any) => {
-      const row = await tx.insumo.update({
-        where: { id_insumo: id },
-        data: {
-          ...(data.nombre !== undefined ? { nombre: data.nombre } : {}),
-          ...(data.descripcion !== undefined ? { descripcion: data.descripcion } : {}),
-        },
-      });
-
-      return tx.insumo.findUnique({ where: { id_insumo: row.id_insumo } });
-    }),
-
-  // Borrar
-  remove: (id: bigint) =>
-    prisma.insumo.delete({
-      where: { id_insumo: id },
-    }),
+  remove: (id: number) =>
+    prisma.insumo.delete({ where: { id_insumo: id } }),
 };

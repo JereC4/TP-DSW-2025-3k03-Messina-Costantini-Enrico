@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { api } from "./base";
 
 export type Localidad = {
   id_localidad: number;
@@ -7,14 +7,10 @@ export type Localidad = {
   codigo_postal?: string | null;
 };
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:3000',
-});
-
 export const getLocalidades = async (q?: string, id_provincia?: number) =>
-  (await api.get<Localidad[]>('/localidades', { params: { q, id_provincia } })).data;
+  (await api.get<Localidad[]>("/localidades", { params: { q, id_provincia } })).data;
 
-export const getLocalidad = async (id: number) =>
+export const getLocalidadById = async (id: number) =>
   (await api.get<Localidad>(`/localidades/${id}`)).data;
 
 export const createLocalidad = async (payload: Omit<Localidad, 'id_localidad'>) =>

@@ -1,13 +1,12 @@
-import axios from 'axios';
+import { api } from "./base";
 
 export type Provincia = { id_provincia: number; nombre: string };
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:3000',
-});
-
 export const getProvincias = async (q?: string) =>
-  (await api.get<Provincia[]>('/provincias', { params: { q } })).data;
+  (await api.get<Provincia[]>("/provincias", { params: { q } })).data;
+
+export const getProvinciaById = async (id: number) =>
+  (await api.get<Provincia>(`/provincias/${id}`)).data;
 
 export const createProvincia = async (nombre: string) =>
   (await api.post<Provincia>('/provincias', { nombre })).data;

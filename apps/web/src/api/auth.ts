@@ -1,4 +1,5 @@
-import axios, { isAxiosError } from "axios";
+import { api } from "./base";
+import { isAxiosError } from "axios";
 
 export type RoleName = "ADMIN" | "CLIENTE" | "PRESTAMISTA";
 
@@ -9,10 +10,6 @@ export interface AuthUser {
   apellido: string;
   roles?: RoleName[];
 }
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? "http://localhost:3000",
-});
 
 export async function login(email: string, password: string): Promise<AuthUser> {
   const res = await api.post<AuthUser>("/auth/login", { email, password });

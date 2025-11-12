@@ -1,6 +1,8 @@
 import { NavLink, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
+import CategoriasServicioPage from "./pages/CategoriasServicioPage";
+import InsumosPage from "./pages/InsumosPage";
 
 export default function App() {
   return (
@@ -18,11 +20,15 @@ export default function App() {
         <NavLink to="/" style={{ color: "white", textDecoration: "none" }}>
           <h2>AgroApp 🌾</h2>
         </NavLink>
+
         <nav style={{ display: "flex", gap: "16px" }}>
-          <NavLink
-            to="/auth"
-            style={{ color: "white", textDecoration: "none", fontWeight: 600 }}
-          >
+          <NavLink to="/categorias" style={{ color: "white", textDecoration: "none", fontWeight: 600 }}>
+            Categorías
+          </NavLink>
+          <NavLink to="/insumos" style={{ color: "white", textDecoration: "none", fontWeight: 600 }}>
+            Insumos
+          </NavLink>
+          <NavLink to="/auth" style={{ color: "white", textDecoration: "none", fontWeight: 600 }}>
             Login / Signup
           </NavLink>
         </nav>
@@ -31,8 +37,12 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/categorias" element={<CategoriasServicioPage />} />
+        <Route path="/insumos" element={<InsumosPage />} />
         <Route path="*" element={<div style={{ padding: 24 }}>404 — Página no encontrada</div>} />
       </Routes>
     </div>
   );
 }
+
+
