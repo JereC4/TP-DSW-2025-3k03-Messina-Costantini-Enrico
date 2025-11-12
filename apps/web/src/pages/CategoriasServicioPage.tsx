@@ -6,7 +6,7 @@ import {
   deleteCategoriaServicio,
   type CategoriaServicio,
 } from "../api/categoriasServicio";
-import { getApiErrorMessage } from "../api/auth"; // si preferís, mové este helper a api/base.ts
+import { getApiErrorMessage } from "../api/auth";
 
 export default function CategoriasServicioPage() {
   const [items, setItems] = useState<CategoriaServicio[]>([]);

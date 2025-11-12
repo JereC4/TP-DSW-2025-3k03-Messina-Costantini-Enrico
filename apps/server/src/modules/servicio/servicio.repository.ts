@@ -1,7 +1,6 @@
 import { prisma } from '../../../../../packages/database/src/client.js';
 
 export const servicioRepo = {
-  // Listado con filtros opcionales
   list: (q?: string, id_categoria?: bigint, id_prestamista?: bigint) =>
     prisma.servicio.findMany({
       where: {
@@ -17,8 +16,6 @@ export const servicioRepo = {
         ...(id_prestamista ? { id_prestamista } : {}),
       },
       orderBy: [{ nombre: 'asc' }],
-      // Si ya tenés relaciones mapeadas, podés incluirlas:
-      // include: { categoria: true, prestamista: true },
     }),
 
   getById: (id: bigint) =>

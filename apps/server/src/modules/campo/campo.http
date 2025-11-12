@@ -1,0 +1,33 @@
+### listar (todos)
+GET http://localhost:3000/campos
+Accept: application/json
+
+### listar por cliente
+GET http://localhost:3000/campos?id_cliente=3
+Accept: application/json
+
+### crear
+POST http://localhost:3000/campos
+Content-Type: application/json
+
+{
+  "id_cliente": 3,
+  "coordenadas": "-32.885, -68.845 (Luján)",
+  "hectareas": 120.5
+}
+
+### detalle
+GET http://localhost:3000/campos/1
+Accept: application/json
+
+### update
+PUT http://localhost:3000/campos/1
+Content-Type: application/json
+
+{
+  "coordenadas": "Actualizado -32.88, -68.84",
+  "hectareas": 125.0
+}
+
+### delete
+DELETE http://localhost:3000/campos/1
