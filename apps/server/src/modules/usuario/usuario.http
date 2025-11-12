@@ -2,6 +2,10 @@
 GET http://localhost:3000/usuarios?q=juan&id_localidad=1&role=CLIENTE
 Accept: application/json
 
+### Listar todos los usuarios
+GET http://localhost:3000/usuarios
+Accept: application/json
+
 ###
 # Crear usuario
 POST http://localhost:3000/usuarios
@@ -18,17 +22,17 @@ Content-Type: application/json
 
 ###
 # Detalle
-GET http://localhost:3000/usuarios/1
+GET http://localhost:3000/usuarios/3
 Accept: application/json
 
 ###
 # Actualizar (cambia rol y localidad)
-PUT http://localhost:3000/usuarios/1
+PUT http://localhost:3000/usuarios/6
 Content-Type: application/json
 
 {
   "id_localidad": null,
-  "roles": ["ADMIN", "CLIENTE"]
+  "roles": ["CLIENTE", "ADMIN"]
 }
 
 ###

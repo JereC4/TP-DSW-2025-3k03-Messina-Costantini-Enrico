@@ -6,7 +6,6 @@ export const categoriaServicioRepo = {
       ? { OR: [{ nombre: { contains: q } }, { descripcion: { contains: q } }] }
       : undefined;
 
-    // 🔒 Safe pagination: si NO mandás page/pageSize, no usa skip/take
     const p = Number(page);
     const ps = Number(pageSize);
     const hasPaging = Number.isFinite(p) && Number.isFinite(ps) && p > 0 && ps > 0;
@@ -18,16 +17,15 @@ export const categoriaServicioRepo = {
     });
   },
 
-  getById: (id: number) =>
+  getById: (id: bigint) =>
     prisma.categoria.findUnique({ where: { id_categoria: id } }),
 
   create: (data: { nombre: string; descripcion?: string | null }) =>
     prisma.categoria.create({ data }),
 
-  update: (id: number, data: Partial<{ nombre: string; descripcion?: string | null }>) =>
+  update: (id: bigint, data: Partial<{ nombre: string; descripcion?: string | null }>) =>
     prisma.categoria.update({ where: { id_categoria: id }, data }),
 
-  remove: (id: number) =>
+  remove: (id: bigint) =>
     prisma.categoria.delete({ where: { id_categoria: id } }),
 };
-

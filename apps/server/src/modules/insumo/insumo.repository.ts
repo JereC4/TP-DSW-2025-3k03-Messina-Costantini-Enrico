@@ -13,7 +13,8 @@ export const insumoRepo = {
 
     const p = Number(page);
     const ps = Number(pageSize);
-    const hasPaging = Number.isFinite(p) && Number.isFinite(ps) && p > 0 && ps > 0;
+    const hasPaging =
+      Number.isFinite(p) && Number.isFinite(ps) && p > 0 && ps > 0;
 
     return prisma.insumo.findMany({
       where,
@@ -22,29 +23,32 @@ export const insumoRepo = {
     });
   },
 
-  getById: (id: number) =>
+  getById: (id: bigint) =>
     prisma.insumo.findUnique({ where: { id_insumo: id } }),
 
-  create: (data: { nombre_insumo: string; descripcion_insumo?: string | null }) =>
+  // ✅ nombres alineados con el modelo Prisma
+  create: (data: { nombre: string; descripcion?: string | null }) =>
     prisma.insumo.create({
       data: {
-        nombre: data.nombre_insumo,
-        descripcion: data.descripcion_insumo ?? null,
+        nombre: data.nombre,
+        descripcion: data.descripcion ?? null,
       },
     }),
 
   update: (
-    id: number,
-    data: Partial<{ nombre_insumo: string; descripcion_insumo?: string | null }>
+    id: bigint,
+    data: Partial<{ nombre: string; descripcion?: string | null }>
   ) =>
     prisma.insumo.update({
       where: { id_insumo: id },
       data: {
-        ...(data.nombre_insumo !== undefined ? { nombre: data.nombre_insumo } : {}),
-        ...(data.descripcion_insumo !== undefined ? { descripcion: data.descripcion_insumo } : {}),
+        ...(data.nombre !== undefined ? { nombre: data.nombre } : {}),
+        ...(data.descripcion !== undefined
+          ? { descripcion: data.descripcion }
+          : {}),
       },
     }),
 
-  remove: (id: number) =>
+  remove: (id: bigint) =>
     prisma.insumo.delete({ where: { id_insumo: id } }),
 };

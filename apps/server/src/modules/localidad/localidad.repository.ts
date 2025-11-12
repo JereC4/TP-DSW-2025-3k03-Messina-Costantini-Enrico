@@ -8,7 +8,7 @@ export const localidadRepo = {
         ...(id_provincia ? { id_provincia } : {}),
       },
       orderBy: [{ id_provincia: 'asc' }, { nombre: 'asc' }],
-      include: { provincia: true }, // opcional: devuelve nombre de provincia
+      include: { provincia: true },
     }),
 
   getById: (id: bigint) =>
@@ -17,7 +17,6 @@ export const localidadRepo = {
       include: { provincia: true },
     }),
 
-  // FK: debe existir provincia.id_provincia (RESTRICT). :contentReference[oaicite:4]{index=4}
   create: (data: { id_provincia: bigint; nombre: string; codigo_postal?: string }) =>
     prisma.localidad.create({ data }),
 
