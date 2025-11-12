@@ -12,6 +12,8 @@ import prestamistaRouter from "../../modules/prestamista/prestamista.router.js";
 import adminRouter from "../../modules/admin/admin.router.js";
 import { categoriaServicioRouter } from "../../modules/categoria-servicio/categoria-servicio.router.js";
 import { insumoRouter } from "../../modules/insumo/insumo.router.js";
+import { servicioRouter } from "../../modules/servicio/servicio.router.js";
+import { precioRouter } from "../../modules/precio/precio.router.js";
 
 // Middlewares
 import { errorMiddleware } from '../errors/errorMiddleware.js';
@@ -30,6 +32,8 @@ export function createApp() {
   app.use("/admins", adminRouter);
   app.use("/categorias-servicio", categoriaServicioRouter);
   app.use("/insumo", insumoRouter);
+  app.use("/servicio", servicioRouter);
+  app.use("/precio", precioRouter);
   app.use(errorMiddleware);
   return app;
 }
