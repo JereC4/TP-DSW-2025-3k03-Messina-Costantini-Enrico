@@ -3,6 +3,8 @@ import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import CategoriasServicioPage from "./pages/CategoriasServicioPage";
 import InsumosPage from "./pages/InsumosPage";
+import ServiciosPage from "./pages/ServiciosPage";
+import PreciosPage from "./pages/PreciosPage";
 
 export default function App() {
   return (
@@ -31,6 +33,12 @@ export default function App() {
           <NavLink to="/auth" style={{ color: "white", textDecoration: "none", fontWeight: 600 }}>
             Login / Signup
           </NavLink>
+          <NavLink to="/servicios" className="text-white font-semibold">
+            Servicios
+          </NavLink>
+          <NavLink to="/precios" className="text-white font-semibold hover:underline">
+            Precios
+          </NavLink>
         </nav>
       </header>
 
@@ -39,7 +47,9 @@ export default function App() {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/categorias" element={<CategoriasServicioPage />} />
         <Route path="/insumos" element={<InsumosPage />} />
+        <Route path="/servicios" element={<ServiciosPage />} />
         <Route path="*" element={<div style={{ padding: 24 }}>404 — Página no encontrada</div>} />
+        <Route path="/precios" element={<PreciosPage />} />
       </Routes>
     </div>
   );
