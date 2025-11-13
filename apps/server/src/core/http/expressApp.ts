@@ -15,6 +15,7 @@ import { insumoRouter } from "../../modules/insumo/insumo.router.js";
 import { servicioRouter } from "../../modules/servicio/servicio.router.js";
 import { precioRouter } from "../../modules/precio/precio.router.js";
 import campoRouter from "../../modules/campo/campo.router.js";
+import { solicitudRouter } from "../../modules/solicitud/solicitud.router.js";
 
 // Middlewares
 import { errorMiddleware } from '../errors/errorMiddleware.js';
@@ -36,6 +37,7 @@ export function createApp() {
   app.use("/servicio", servicioRouter);
   app.use("/precio", precioRouter);
   app.use("/campos", campoRouter);
+  app.use("/solicitudes", solicitudRouter);
   app.use(errorMiddleware);
   return app;
 }
