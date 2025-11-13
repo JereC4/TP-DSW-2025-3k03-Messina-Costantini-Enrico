@@ -16,7 +16,7 @@ export default function AuthPage() {
     password: "",
     nombre: "",
     apellido: "",
-    rol: "CLIENTE", // default
+    rol: "CLIENTE",
   });
   const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -45,12 +45,10 @@ export default function AuthPage() {
 
     try {
       if (isLogin) {
-        // 🔐 Login normal
         const u = await login(form.email, form.password);
         setUser(u);
         localStorage.setItem("auth:user", JSON.stringify(u));
       } else {
-        // 📝 Signup: primero crear el usuario...
         await signup({
           email: form.email,
           password: form.password,
@@ -59,7 +57,6 @@ export default function AuthPage() {
           roles: [form.rol],
         });
 
-        // ...y después loguear para traer los roles bien armados
         const logged = await login(form.email, form.password);
         setUser(logged);
         localStorage.setItem("auth:user", JSON.stringify(logged));
@@ -73,99 +70,133 @@ export default function AuthPage() {
     }
   };
 
+  // 🟢 Vista cuando el usuario ya está logueado
   if (user) {
     return (
-      <div style={{ maxWidth: 480, margin: "40px auto" }}>
-        <h2>Bienvenido, {user.nombre}!</h2>
-        <p>Email: {user.email}</p>
-        <p>Roles: {user.roles?.join(", ") || "(sin roles)"}</p>
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-start justify-center pt-16">
+        <div className="w-full max-w-md rounded-xl bg-slate-900/80 p-6 shadow-xl ring-1 ring-emerald-500/20">
+          <h2 className="text-2xl font-bold mb-2 text-emerald-300">
+            Bienvenido, {user.nombre}!
+          </h2>
+          <p className="text-sm text-slate-200 mb-1">
+            <span className="font-semibold">Email:</span> {user.email}
+          </p>
+          <p className="text-sm text-slate-200 mb-4">
+            <span className="font-semibold">Roles:</span>{" "}
+            {user.roles?.join(", ") || "(sin roles)"}
+          </p>
 
-        <button
-          onClick={() => {
-            setUser(null);
-            localStorage.removeItem("auth:user");
-          }}
-        >
-          Cerrar sesión
-        </button>
+          <button
+            className="mt-2 w-full rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-emerald-500 transition"
+            onClick={() => {
+              setUser(null);
+              localStorage.removeItem("auth:user");
+            }}
+          >
+            Cerrar sesión
+          </button>
+        </div>
       </div>
     );
   }
 
+  // 🟡 Vista login / signup
   return (
-    <div style={{ maxWidth: 480, margin: "40px auto" }}>
-      <h1>{isLogin ? "Iniciar sesión" : "Crear cuenta"}</h1>
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex items-start justify-center pt-16">
+      <div className="w-full max-w-md rounded-xl bg-slate-900/80 p-6 shadow-xl ring-1 ring-emerald-500/20">
+        <h1 className="text-2xl font-bold mb-6 text-center text-emerald-300">
+          {isLogin ? "Iniciar sesión" : "Crear cuenta"}
+        </h1>
 
-      <form onSubmit={handleSubmit} style={{ display: "grid", gap: 8 }}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Contraseña"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-
-        {!isLogin && (
-          <>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div>
             <input
-              name="nombre"
-              placeholder="Nombre"
-              value={form.nombre}
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={form.email}
               onChange={handleChange}
               required
+              className="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
+          </div>
+
+          <div>
             <input
-              name="apellido"
-              placeholder="Apellido"
-              value={form.apellido}
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              value={form.password}
               onChange={handleChange}
               required
+              className="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
+          </div>
 
-            <label>
-              Tipo de usuario:
-              <select
-                name="rol"
-                value={form.rol}
-                onChange={handleChange}
-                required
-              >
-                <option value="CLIENTE">Cliente</option>
-                <option value="PRESTAMISTA">Prestamista</option>
-              </select>
-            </label>
-          </>
+          {!isLogin && (
+            <>
+              <div>
+                <input
+                  name="nombre"
+                  placeholder="Nombre"
+                  value={form.nombre}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <input
+                  name="apellido"
+                  placeholder="Apellido"
+                  value={form.apellido}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+
+              <div className="text-sm">
+                <label className="block mb-1 text-slate-200">
+                  Tipo de usuario:
+                </label>
+                <select
+                  name="rol"
+                  value={form.rol}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                >
+                  <option value="CLIENTE">Cliente</option>
+                  <option value="PRESTAMISTA">Prestamista</option>
+                </select>
+              </div>
+            </>
+          )}
+
+          <button
+            type="submit"
+            className="mt-2 w-full rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-emerald-500 transition"
+          >
+            {isLogin ? "Entrar" : "Registrarse"}
+          </button>
+        </form>
+
+        {error && (
+          <p className="mt-3 text-sm text-red-400 text-center">{error}</p>
         )}
 
-        <button type="submit">{isLogin ? "Entrar" : "Registrarse"}</button>
-      </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <p style={{ marginTop: 12 }}>
-        {isLogin ? "¿No tenés cuenta?" : "¿Ya tenés cuenta?"}{" "}
-        <button
-          type="button"
-          onClick={() => setIsLogin((v) => !v)}
-          style={{
-            color: "blue",
-            border: "none",
-            background: "none",
-            padding: 0,
-          }}
-        >
-          {isLogin ? "Crear una" : "Iniciar sesión"}
-        </button>
-      </p>
+        <p className="mt-4 text-xs text-center text-slate-300">
+          {isLogin ? "¿No tenés cuenta?" : "¿Ya tenés cuenta?"}{" "}
+          <button
+            type="button"
+            onClick={() => setIsLogin((v) => !v)}
+            className="text-emerald-300 underline-offset-2 hover:underline"
+          >
+            {isLogin ? "Crear una" : "Iniciar sesión"}
+          </button>
+        </p>
+      </div>
     </div>
   );
 }
