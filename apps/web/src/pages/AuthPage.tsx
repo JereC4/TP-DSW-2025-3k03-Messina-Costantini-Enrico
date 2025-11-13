@@ -6,7 +6,7 @@ type FormState = {
   password: string;
   nombre: string;
   apellido: string;
-  rol: RoleName; 
+  rol: RoleName;
 };
 
 export default function AuthPage() {
@@ -16,7 +16,7 @@ export default function AuthPage() {
     password: "",
     nombre: "",
     apellido: "",
-    rol: "CLIENTE", //CLIENTE COMO DEFAULT? (CAMBIARLO?)
+    rol: "CLIENTE", // default
   });
   const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -45,19 +45,24 @@ export default function AuthPage() {
 
     try {
       if (isLogin) {
+        // 🔐 Login normal
         const u = await login(form.email, form.password);
         setUser(u);
         localStorage.setItem("auth:user", JSON.stringify(u));
       } else {
-        const u = await signup({
+        // 📝 Signup: primero crear el usuario...
+        await signup({
           email: form.email,
           password: form.password,
           nombre: form.nombre,
           apellido: form.apellido,
           roles: [form.rol],
         });
-        setUser(u);
-        localStorage.setItem("auth:user", JSON.stringify(u));
+
+        // ...y después loguear para traer los roles bien armados
+        const logged = await login(form.email, form.password);
+        setUser(logged);
+        localStorage.setItem("auth:user", JSON.stringify(logged));
       }
     } catch (e: unknown) {
       const message =
@@ -126,7 +131,6 @@ export default function AuthPage() {
               required
             />
 
-            {/* 🟢 Selector de rol */}
             <label>
               Tipo de usuario:
               <select

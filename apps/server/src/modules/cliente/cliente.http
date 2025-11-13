@@ -19,8 +19,8 @@ PUT http://localhost:3000/clientes/7
 Content-Type: application/json
 
 {
-  "cuil": "20-46537774-8"
+  "cuil_cuit": "20-46537774-8"
 }
 
 ### delete
-DELETE http://localhost:3000/clientes/3
+DELETE http://localhost:3000/clientes/8
