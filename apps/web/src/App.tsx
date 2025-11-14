@@ -16,7 +16,7 @@ import ProfilePage from "./pages/ProfilePage";
 export default function App() {
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
 
-  // 🔍 Leer usuario logueado desde localStorage
+  // Leer usuario logueado desde localStorage al montar
   useEffect(() => {
     const raw = localStorage.getItem("auth:user");
     if (raw) {
@@ -40,8 +40,6 @@ export default function App() {
         </NavLink>
 
         <nav className="flex gap-6 text-white font-medium">
-
-          {/* ----------- ITEMS DEL MENÚ ----------- */}
           <NavLink
             to="/categorias"
             className={({ isActive }) =>
@@ -126,7 +124,7 @@ export default function App() {
             Localidades
           </NavLink>
 
-          {/* ----------- BOTÓN LOGIN / PERFIL ----------- */}
+          {/* Botón login / perfil según estado */}
           {authUser ? (
             <NavLink
               to="/perfil"
@@ -149,7 +147,10 @@ export default function App() {
       <div className="flex-1 w-full">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/auth" element={<AuthPage />} />
+          <Route
+            path="/auth"
+            element={<AuthPage onAuthChange={setAuthUser} />}
+          />
           <Route path="/categorias" element={<CategoriasServicioPage />} />
           <Route path="/insumos" element={<InsumosPage />} />
           <Route path="/servicios" element={<ServiciosPage />} />

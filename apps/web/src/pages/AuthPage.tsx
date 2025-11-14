@@ -9,7 +9,11 @@ type FormState = {
   rol: RoleName;
 };
 
-export default function AuthPage() {
+type AuthPageProps = {
+  onAuthChange?: (user: AuthUser | null) => void;
+};
+
+export default function AuthPage({ onAuthChange }: AuthPageProps) {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [form, setForm] = useState<FormState>({
     email: "",
@@ -25,12 +29,14 @@ export default function AuthPage() {
     const raw = localStorage.getItem("auth:user");
     if (raw) {
       try {
-        setUser(JSON.parse(raw));
+        const u = JSON.parse(raw) as AuthUser;
+        setUser(u);
+        onAuthChange?.(u); // sincronizar si ya estaba logueado
       } catch {
         localStorage.removeItem("auth:user");
       }
     }
-  }, []);
+  }, [onAuthChange]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -48,6 +54,7 @@ export default function AuthPage() {
         const u = await login(form.email, form.password);
         setUser(u);
         localStorage.setItem("auth:user", JSON.stringify(u));
+        onAuthChange?.(u); // 🔔 avisamos a App
       } else {
         await signup({
           email: form.email,
@@ -60,6 +67,7 @@ export default function AuthPage() {
         const logged = await login(form.email, form.password);
         setUser(logged);
         localStorage.setItem("auth:user", JSON.stringify(logged));
+        onAuthChange?.(logged); // 🔔 avisamos a App
       }
     } catch (e: unknown) {
       const message =
@@ -70,7 +78,7 @@ export default function AuthPage() {
     }
   };
 
-  // 🟢 Vista cuando el usuario ya está logueado
+  // Vista cuando el usuario ya está logueado
   if (user) {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 flex items-start justify-center pt-16">
@@ -91,6 +99,7 @@ export default function AuthPage() {
             onClick={() => {
               setUser(null);
               localStorage.removeItem("auth:user");
+              onAuthChange?.(null); // 🔔 avisamos que se deslogueó
             }}
           >
             Cerrar sesión
@@ -100,7 +109,7 @@ export default function AuthPage() {
     );
   }
 
-  // 🟡 Vista login / signup
+  // Vista login / signup
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex items-start justify-center pt-16">
       <div className="w-full max-w-md rounded-xl bg-slate-900/80 p-6 shadow-xl ring-1 ring-emerald-500/20">
