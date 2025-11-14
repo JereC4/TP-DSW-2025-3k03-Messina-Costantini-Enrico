@@ -2,130 +2,88 @@ import { prisma } from '../../../../../packages/database/src/client.js';
 import {
   CreateSolicitudInput,
   UpdateSolicitudEstadoInput,
+  SolicitudEstado,
 } from "./solicitud.schema.js";
 
-export class SolicitudRepository {
-  async findById(id_solicitud: bigint) {
+export const solicitudRepo = {
+  // Listar solicitudes
+  async list(estado?: SolicitudEstado) {
+    return prisma.solicitud.findMany({
+      where: estado ? { estado } : {},
+      orderBy: { fecha_solicitud: "desc" },
+    });
+  },
+
+  // Obtener una solicitud por ID
+  async getById(id: number) {
     return prisma.solicitud.findUnique({
-      where: { id_solicitud },
-      include: {
-        campo: true,
-        cliente_profile: { include: { users: true } },
-        prestamista_profile: { include: { users: true } },
-        servicio: {
-          include: { categoria: true, prestamista_profile: true },
-        },
-        solicitud_insumo: { include: { insumo: true } },
-      },
+      where: { id_solicitud: BigInt(id) },
     });
-  }
+  },
 
-  async listAll() {
-    return prisma.solicitud.findMany({
-      orderBy: { fecha_solicitud: "desc" },
-    });
-  }
-
-  async listByCliente(id_cliente: bigint) {
-    return prisma.solicitud.findMany({
-      where: { id_cliente },
-      orderBy: { fecha_solicitud: "desc" },
-    });
-  }
-
-  async listByPrestamista(id_prestamista: bigint) {
-    return prisma.solicitud.findMany({
-      where: { id_prestamista },
-      orderBy: { fecha_solicitud: "desc" },
-    });
-  }
-
-  async createWithInsumos(data: CreateSolicitudInput) {
-    // conversión a BigInt porque el schema usa BigInt en todas las FK
-    const id_servicio = BigInt(data.id_servicio as any);
-    const id_cliente = BigInt(data.id_cliente as any);
-    const id_prestamista = BigInt(data.id_prestamista as any);
-    const id_campo = BigInt(data.id_campo as any);
+  // Crear solicitud + insumos
+  async create(data: CreateSolicitudInput) {
+    const id_servicio = Number(data.id_servicio);
+    const id_cliente = Number(data.id_cliente);
+    const id_prestamista = Number(data.id_prestamista);
+    const id_campo = Number(data.id_campo);
 
     return prisma.$transaction(async (tx) => {
-      // 1) Creamos la solicitud con lo mínimo
-      const baseSolicitud = await tx.solicitud.create({
+      const solicitud = await tx.solicitud.create({
         data: {
-          id_servicio,
-          id_cliente,
-          id_prestamista,
-          id_campo,
+          id_servicio: BigInt(id_servicio),
+          id_cliente: BigInt(id_cliente),
+          id_prestamista: BigInt(id_prestamista),
+          id_campo: BigInt(id_campo),
+
           hectareas_trabajadas: data.hectareas_trabajadas,
+
+          precio_servicio: 0,
+          costo_insumos: 0,
+          precio_total: 0,
+
+          estado: "pendiente",
+
           fecha_inicio: data.fecha_inicio
             ? new Date(data.fecha_inicio)
-            : undefined,
-          fecha_fin: data.fecha_fin ? new Date(data.fecha_fin) : undefined,
-          // precios se recalculan más abajo
+            : null,
+          fecha_fin: data.fecha_fin ? new Date(data.fecha_fin) : null,
         },
       });
 
-      // 2) Crear insumos (si hay)
-      let costo_insumos = 0;
-
-      if (data.insumos && data.insumos.length > 0) {
-        const rows = data.insumos.map((ins) => {
-          const cantidad = ins.cantidad;
-          const precio_unit = ins.precio_unit;
-          costo_insumos += cantidad * precio_unit;
-
-          return {
-            id_solicitud: baseSolicitud.id_solicitud,
-            id_insumo: BigInt(ins.id_insumo as any),
-            cantidad,
-            precio_unit,
-            proveedor: ins.proveedor,
-          };
-        });
+      if (data.insumos.length > 0) {
+        const rows = data.insumos.map((i) => ({
+          id_solicitud: solicitud.id_solicitud,
+          id_insumo: BigInt(Number(i.id_insumo)),
+          cantidad: i.cantidad,
+          precio_unit: i.precio_unit,
+          proveedor: i.proveedor,
+        }));
 
         await tx.solicitud_insumo.createMany({ data: rows });
+
+        const costo_insumos = data.insumos.reduce(
+          (acc, item) => acc + item.cantidad * item.precio_unit,
+          0
+        );
+
+        await tx.solicitud.update({
+          where: { id_solicitud: solicitud.id_solicitud },
+          data: {
+            costo_insumos,
+            precio_total: solicitud.precio_servicio.add(costo_insumos),
+          },
+        });
       }
 
-      // 3) Buscar precio vigente del servicio a la fecha de la solicitud
-      const precioVigente = await tx.precio.findFirst({
-        where: {
-          id_servicio,
-          fecha_desde: { lte: baseSolicitud.fecha_solicitud },
-        },
-        orderBy: { fecha_desde: "desc" },
-      });
-
-      const precio_servicio =
-        Number(precioVigente?.valor ?? 0) * Number(data.hectareas_trabajadas);
-
-      const precio_total = precio_servicio + costo_insumos;
-
-      // 4) Actualizar solicitud con valores calculados
-      const updated = await tx.solicitud.update({
-        where: { id_solicitud: baseSolicitud.id_solicitud },
-        data: {
-          precio_servicio,
-          costo_insumos,
-          precio_total,
-        },
-        include: {
-          campo: true,
-          cliente_profile: { include: { users: true } },
-          prestamista_profile: { include: { users: true } },
-          servicio: true,
-          solicitud_insumo: true,
-        },
-      });
-
-      return updated;
+      return solicitud;
     });
-  }
+  },
 
-  async updateEstado(
-    id_solicitud: bigint,
-    data: UpdateSolicitudEstadoInput
-  ) {
+  // Cambiar estado (y fechas opcionales)
+  async updateEstado(id: number, data: UpdateSolicitudEstadoInput) {
     return prisma.solicitud.update({
-      where: { id_solicitud },
+      where: { id_solicitud: BigInt(id) },
       data: {
         estado: data.estado,
         fecha_inicio: data.fecha_inicio
@@ -134,5 +92,13 @@ export class SolicitudRepository {
         fecha_fin: data.fecha_fin ? new Date(data.fecha_fin) : undefined,
       },
     });
-  }
-}
+  },
+
+  // Eliminar una solicitud
+  async delete(id: number) {
+    return prisma.solicitud.delete({
+      where: { id_solicitud: BigInt(id) },
+    });
+  },
+};
+

@@ -9,6 +9,8 @@ import PreciosPage from "./pages/PreciosPage";
 import CamposPage from "./pages/CamposPage";
 import LocalidadesPage from "./pages/LocalidadesPage";
 import ProvinciasPage from "./pages/ProvinciasPage";
+import SolicitudesPage from "./pages/SolicitudesPage";
+
 
 export default function App() {
   return (
@@ -54,6 +56,17 @@ export default function App() {
             }
           >
             Servicios
+          </NavLink>
+
+          <NavLink
+            to="/solicitudes"
+            className={({ isActive }) =>
+              `relative transition pb-1 hover:text-green-200 ${
+                isActive ? "text-green-200 after:w-full" : "after:w-0"
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+            }
+          >
+            Solicitudes
           </NavLink>
 
           <NavLink
@@ -121,6 +134,7 @@ export default function App() {
           <Route path="/campos" element={<CamposPage />} />
           <Route path="/provincias" element={<ProvinciasPage />} />
           <Route path="/localidades" element={<LocalidadesPage />} />
+          <Route path="/solicitudes" element={<SolicitudesPage />} />
           <Route
             path="*"
             element={

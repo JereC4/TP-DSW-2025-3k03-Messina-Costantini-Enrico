@@ -1,4 +1,3 @@
-// apps/server/src/modules/solicitud/solicitud.schema.ts
 import { z } from "zod";
 
 export const SolicitudEstadoEnum = z.enum([
@@ -8,10 +7,7 @@ export const SolicitudEstadoEnum = z.enum([
   "completada",
 ]);
 
-export const SolicitudInsumoProveedorEnum = z.enum([
-  "CLIENTE",
-  "PRESTAMISTA",
-]);
+export const SolicitudInsumoProveedorEnum = z.enum(["CLIENTE", "PRESTAMISTA"]);
 
 export const SolicitudInsumoInputSchema = z.object({
   id_insumo: z.union([z.number().int().positive(), z.string().min(1)]),
@@ -25,9 +21,12 @@ export const CreateSolicitudInputSchema = z.object({
   id_cliente: z.union([z.number().int().positive(), z.string().min(1)]),
   id_prestamista: z.union([z.number().int().positive(), z.string().min(1)]),
   id_campo: z.union([z.number().int().positive(), z.string().min(1)]),
+
   hectareas_trabajadas: z.number().positive(),
+
   fecha_inicio: z.string().datetime().optional(),
   fecha_fin: z.string().datetime().optional(),
+
   insumos: z.array(SolicitudInsumoInputSchema).default([]),
 });
 
@@ -37,6 +36,7 @@ export const UpdateSolicitudEstadoSchema = z.object({
   fecha_fin: z.string().datetime().optional(),
 });
 
+export type SolicitudEstado = z.infer<typeof SolicitudEstadoEnum>;
 export type CreateSolicitudInput = z.infer<typeof CreateSolicitudInputSchema>;
 export type UpdateSolicitudEstadoInput = z.infer<
   typeof UpdateSolicitudEstadoSchema

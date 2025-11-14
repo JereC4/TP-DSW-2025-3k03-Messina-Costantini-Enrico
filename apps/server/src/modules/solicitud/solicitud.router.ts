@@ -1,30 +1,24 @@
-// apps/server/src/modules/solicitud/solicitud.router.ts
 import { Router } from "express";
-import { SolicitudController } from "./solicitud.controller.js";
-// import { authMiddleware, requireRole } from "../auth/middlewares"; // si ya los tenés
+import { solicitudController } from "./solicitud.controller.js";
 
-const router = Router();
-const controller = new SolicitudController();
+const solicitudRouter = Router();
 
-// Todas protegidas por auth (ajustar a tu implementación)
-// router.use(authMiddleware);
+// router.use(requireAuth);
 
-// Listado general (ADMIN)
-router.get("/", /* requireRole("ADMIN"), */ controller.listAll);
+// GET /solicitudes
+solicitudRouter.get("/", solicitudController.list);
 
-// Por cliente (para dashboard cliente)
-router.get("/cliente/:idCliente", controller.listByCliente);
+// GET /solicitudes/:id
+solicitudRouter.get("/:id", solicitudController.getById);
 
-// Por prestamista (para dashboard prestamista)
-router.get("/prestamista/:idPrestamista", controller.listByPrestamista);
+// POST /solicitudes
+solicitudRouter.post("/", solicitudController.create);
 
-// Detalle
-router.get("/:id", controller.getById);
+// PATCH /solicitudes/:id/estado
+solicitudRouter.patch("/:id/estado", solicitudController.updateEstado);
 
-// Crear nueva solicitud (rol CLIENTE)
-router.post("/", /* requireRole("CLIENTE"), */ controller.create);
+// DELETE /solicitudes/:id
+solicitudRouter.delete("/:id", solicitudController.delete);
 
-// Cambiar estado (aceptar/rechazar/completar) – usualmente PRESTAMISTA
-router.patch("/:id/estado", /* requireRole("PRESTAMISTA"), */ controller.updateEstado);
+export default solicitudRouter;
 
-export { router as solicitudRouter };

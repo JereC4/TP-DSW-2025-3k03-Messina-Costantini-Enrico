@@ -1,50 +1,29 @@
 import {
   CreateSolicitudInput,
-  CreateSolicitudInputSchema,
   UpdateSolicitudEstadoInput,
-  UpdateSolicitudEstadoSchema,
+  SolicitudEstado,
 } from "./solicitud.schema.js";
-import { SolicitudRepository } from "./solicitud.repository.js";
+import { solicitudRepo } from "./solicitud.repository.js";
 
-const repo = new SolicitudRepository();
+export const solicitudService = {
+  list(estado?: SolicitudEstado) {
+    return solicitudRepo.list(estado);
+  },
 
-export class SolicitudService {
-  async getById(id: string) {
-    const idBig = BigInt(id);
-    const sol = await repo.findById(idBig);
-    if (!sol) throw new Error("Solicitud no encontrada");
-    return sol;
-  }
+  getById(id: number) {
+    return solicitudRepo.getById(id);
+  },
 
-  async listAll() {
-    return repo.listAll();
-  }
+  create(data: CreateSolicitudInput) {
+    return solicitudRepo.create(data);
+  },
 
-  async listByCliente(id_cliente: string) {
-    return repo.listByCliente(BigInt(id_cliente));
-  }
+  updateEstado(id: number, data: UpdateSolicitudEstadoInput) {
+    return solicitudRepo.updateEstado(id, data);
+  },
 
-  async listByPrestamista(id_prestamista: string) {
-    return repo.listByPrestamista(BigInt(id_prestamista));
-  }
+  delete(id: number) {
+    return solicitudRepo.delete(id);
+  },
+};
 
-  async createSolicitud(input: unknown) {
-    const data = CreateSolicitudInputSchema.parse(input);
-
-    // Reglas de negocio adicionales
-    if (data.fecha_inicio && data.fecha_fin) {
-      const ini = new Date(data.fecha_inicio);
-      const fin = new Date(data.fecha_fin);
-      if (fin < ini) {
-        throw new Error("La fecha_fin no puede ser anterior a fecha_inicio");
-      }
-    }
-
-    return repo.createWithInsumos(data as CreateSolicitudInput);
-  }
-
-  async actualizarEstado(id_solicitud: string, input: unknown) {
-    const data = UpdateSolicitudEstadoSchema.parse(input);
-    return repo.updateEstado(BigInt(id_solicitud), data);
-  }
-}

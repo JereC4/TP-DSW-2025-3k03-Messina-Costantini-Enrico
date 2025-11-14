@@ -1,76 +1,73 @@
 import { Request, Response, NextFunction } from "express";
-import { SolicitudService } from "./solicitud.service.js";
+import { solicitudService } from "./solicitud.service.js";
+import {
+  CreateSolicitudInputSchema,
+  UpdateSolicitudEstadoSchema,
+  SolicitudEstadoEnum,
+  SolicitudEstado,
+} from "./solicitud.schema.js";
 
-const service = new SolicitudService();
-
-export class SolicitudController {
-  listAll = async (req: Request, res: Response, next: NextFunction) => {
+export const solicitudController = {
+  async list(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = await service.listAll();
-      res.json(data);
+      let estado: SolicitudEstado | undefined;
+
+      if (req.query.estado) {
+        const value = String(req.query.estado);
+        if (SolicitudEstadoEnum.options.includes(value as SolicitudEstado)) {
+          estado = value as SolicitudEstado;
+        }
+      }
+
+      const items = await solicitudService.list(estado);
+      res.json(items);
     } catch (err) {
       next(err);
     }
-  };
+  },
 
-  getById = async (req: Request, res: Response, next: NextFunction) => {
+  async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      const data = await service.getById(id);
-      res.json(data);
+      const id = Number(req.params.id);
+      const item = await solicitudService.getById(id);
+      if (!item) {
+        return res.status(404).json({ message: "Solicitud no encontrada" });
+      }
+      res.json(item);
     } catch (err) {
       next(err);
     }
-  };
+  },
 
-  listByCliente = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const { idCliente } = req.params;
-      const data = await service.listByCliente(idCliente);
-      res.json(data);
+      const parsed = CreateSolicitudInputSchema.parse(req.body);
+      const created = await solicitudService.create(parsed);
+      res.status(201).json(created);
     } catch (err) {
       next(err);
     }
-  };
+  },
 
-  listByPrestamista = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  async updateEstado(req: Request, res: Response, next: NextFunction) {
     try {
-      const { idPrestamista } = req.params;
-      const data = await service.listByPrestamista(idPrestamista);
-      res.json(data);
+      const id = Number(req.params.id);
+      const parsed = UpdateSolicitudEstadoSchema.parse(req.body);
+      const updated = await solicitudService.updateEstado(id, parsed);
+      res.json(updated);
     } catch (err) {
       next(err);
     }
-  };
+  },
 
-  create = async (req: Request, res: Response, next: NextFunction) => {
+  async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = await service.createSolicitud(req.body);
-      res.status(201).json(data);
+      const id = Number(req.params.id);
+      await solicitudService.delete(id);
+      res.status(204).send();
     } catch (err) {
       next(err);
     }
-  };
+  },
+};
 
-  updateEstado = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const { id } = req.params;
-      const data = await service.actualizarEstado(id, req.body);
-      res.json(data);
-    } catch (err) {
-      next(err);
-    }
-  };
-}

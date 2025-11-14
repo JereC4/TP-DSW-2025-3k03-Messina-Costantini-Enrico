@@ -15,7 +15,7 @@ import { insumoRouter } from "../../modules/insumo/insumo.router.js";
 import { servicioRouter } from "../../modules/servicio/servicio.router.js";
 import { precioRouter } from "../../modules/precio/precio.router.js";
 import campoRouter from "../../modules/campo/campo.router.js";
-import { solicitudRouter } from "../../modules/solicitud/solicitud.router.js";
+import solicitudRouter from "../../modules/solicitud/solicitud.router.js";
 
 // Middlewares
 import { errorMiddleware } from '../errors/errorMiddleware.js';
