@@ -6,7 +6,7 @@ export interface Usuario {
   nombre: string;
   apellido: string;
   cuil_cuit?: string | null;
-  fecha_nac?: string | null; // ISO date (YYYY-MM-DD o full ISO)
+  fecha_nac?: string | null;
   domicilio?: string | null;
   id_localidad?: number | null;
 }
@@ -19,6 +19,7 @@ export type UsuarioUpdateInput = {
   fecha_nac?: string | null;
   domicilio?: string | null;
   id_localidad?: number | null;
+  roles?: string[] | null; 
 };
 
 export async function getUsuario(id: number): Promise<Usuario> {

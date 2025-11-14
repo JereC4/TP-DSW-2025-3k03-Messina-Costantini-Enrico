@@ -115,7 +115,6 @@ export default function ProfilePage() {
       fecha_nac: form.fecha_nac || null,
       domicilio: form.domicilio.trim() || null,
       id_localidad: form.id_localidad ? Number(form.id_localidad) : null,
-      // 🔥 Mandamos roles explícitamente para que el backend NO los pierda
       roles: userRoles,
     };
 
@@ -131,7 +130,7 @@ export default function ProfilePage() {
             email: updated.email,
             nombre: updated.nombre,
             apellido: updated.apellido,
-            roles: userRoles, // 🔥 guardamos los roles elegidos
+            roles: userRoles,
           };
           localStorage.setItem("auth:user", JSON.stringify(merged));
         } catch {
