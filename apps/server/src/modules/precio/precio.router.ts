@@ -3,10 +3,11 @@ import { PrecioController } from "./precio.controller.js";
 
 export const precioRouter = Router();
 
-// precio histórico de un servicio:
+precioRouter.get("/", PrecioController.list);
+
 precioRouter.get("/servicio/:id_servicio", PrecioController.listByServicio);
 
-// CRUD:
+// CRUD por ID
 precioRouter.get("/:id", PrecioController.get);
 precioRouter.post("/", PrecioController.create);
 precioRouter.put("/:id", PrecioController.update);
