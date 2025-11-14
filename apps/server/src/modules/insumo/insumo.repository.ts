@@ -26,7 +26,6 @@ export const insumoRepo = {
   getById: (id: bigint) =>
     prisma.insumo.findUnique({ where: { id_insumo: id } }),
 
-  // ✅ nombres alineados con el modelo Prisma
   create: (data: { nombre: string; descripcion?: string | null }) =>
     prisma.insumo.create({
       data: {

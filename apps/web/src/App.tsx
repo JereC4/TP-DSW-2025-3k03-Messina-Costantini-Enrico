@@ -1,4 +1,6 @@
 import { NavLink, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import type { AuthUser } from "./api/auth";
 
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
@@ -10,9 +12,24 @@ import CamposPage from "./pages/CamposPage";
 import LocalidadesPage from "./pages/LocalidadesPage";
 import ProvinciasPage from "./pages/ProvinciasPage";
 import SolicitudesPage from "./pages/SolicitudesPage";
+import ProfilePage from "./pages/ProfilePage";
 
 
 export default function App() {
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+
+  // Leer usuario logueado desde localStorage al montar
+  useEffect(() => {
+    const raw = localStorage.getItem("auth:user");
+    if (raw) {
+      try {
+        setAuthUser(JSON.parse(raw));
+      } catch {
+        localStorage.removeItem("auth:user");
+      }
+    }
+  }, []);
+
   return (
     <div className="w-full min-h-screen flex flex-col bg-gray-900 text-white">
       {/* HEADER */}
@@ -30,7 +47,8 @@ export default function App() {
             className={({ isActive }) =>
               `relative transition pb-1 hover:text-green-200 ${
                 isActive ? "text-green-200 after:w-full" : "after:w-0"
-              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px]
+                after:bg-green-300 after:transition-all after:duration-300`
             }
           >
             Categorías
@@ -41,7 +59,8 @@ export default function App() {
             className={({ isActive }) =>
               `relative transition pb-1 hover:text-green-200 ${
                 isActive ? "text-green-200 after:w-full" : "after:w-0"
-              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px]
+                after:bg-green-300 after:transition-all after:duration-300`
             }
           >
             Insumos
@@ -52,7 +71,8 @@ export default function App() {
             className={({ isActive }) =>
               `relative transition pb-1 hover:text-green-200 ${
                 isActive ? "text-green-200 after:w-full" : "after:w-0"
-              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px]
+                after:bg-green-300 after:transition-all after:duration-300`
             }
           >
             Servicios
@@ -74,7 +94,8 @@ export default function App() {
             className={({ isActive }) =>
               `relative transition pb-1 hover:text-green-200 ${
                 isActive ? "text-green-200 after:w-full" : "after:w-0"
-              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px]
+                after:bg-green-300 after:transition-all after:duration-300`
             }
           >
             Precios
@@ -85,7 +106,8 @@ export default function App() {
             className={({ isActive }) =>
               `relative transition pb-1 hover:text-green-200 ${
                 isActive ? "text-green-200 after:w-full" : "after:w-0"
-              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px]
+                after:bg-green-300 after:transition-all after:duration-300`
             }
           >
             Campos
@@ -96,7 +118,8 @@ export default function App() {
             className={({ isActive }) =>
               `relative transition pb-1 hover:text-green-200 ${
                 isActive ? "text-green-200 after:w-full" : "after:w-0"
-              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px]
+                after:bg-green-300 after:transition-all after:duration-300`
             }
           >
             Provincias
@@ -107,18 +130,29 @@ export default function App() {
             className={({ isActive }) =>
               `relative transition pb-1 hover:text-green-200 ${
                 isActive ? "text-green-200 after:w-full" : "after:w-0"
-              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px]
+                after:bg-green-300 after:transition-all after:duration-300`
             }
           >
             Localidades
           </NavLink>
 
-          <NavLink
-            to="/auth"
-            className="bg-white text-green-800 font-semibold px-4 py-1.5 rounded-md hover:bg-green-100 transition shadow-sm"
-          >
-            Login / Signup
-          </NavLink>
+          {/* Botón login / perfil según estado */}
+          {authUser ? (
+            <NavLink
+              to="/perfil"
+              className="bg-white text-green-800 font-semibold px-4 py-1.5 rounded-md hover:bg-green-100 transition shadow-sm"
+            >
+              Mi Perfil
+            </NavLink>
+          ) : (
+            <NavLink
+              to="/auth"
+              className="bg-white text-green-800 font-semibold px-4 py-1.5 rounded-md hover:bg-green-100 transition shadow-sm"
+            >
+              Login / Signup
+            </NavLink>
+          )}
         </nav>
       </header>
 
@@ -126,7 +160,10 @@ export default function App() {
       <div className="flex-1 w-full">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/auth" element={<AuthPage />} />
+          <Route
+            path="/auth"
+            element={<AuthPage onAuthChange={setAuthUser} />}
+          />
           <Route path="/categorias" element={<CategoriasServicioPage />} />
           <Route path="/insumos" element={<InsumosPage />} />
           <Route path="/servicios" element={<ServiciosPage />} />
@@ -135,6 +172,8 @@ export default function App() {
           <Route path="/provincias" element={<ProvinciasPage />} />
           <Route path="/localidades" element={<LocalidadesPage />} />
           <Route path="/solicitudes" element={<SolicitudesPage />} />
+          <Route path="/perfil" element={<ProfilePage />} />
+
           <Route
             path="*"
             element={
@@ -146,4 +185,3 @@ export default function App() {
     </div>
   );
 }
-

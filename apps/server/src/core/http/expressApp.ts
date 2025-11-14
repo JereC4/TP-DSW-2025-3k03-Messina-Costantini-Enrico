@@ -33,7 +33,7 @@ export function createApp() {
   app.use("/prestamistas", prestamistaRouter);
   app.use("/admins", adminRouter);
   app.use("/categorias-servicio", categoriaServicioRouter);
-  app.use("/insumo", insumoRouter);
+  app.use("/insumos", insumoRouter);
   app.use("/servicios", servicioRouter);
   app.use("/precios", precioRouter);
   app.use("/campos", campoRouter);

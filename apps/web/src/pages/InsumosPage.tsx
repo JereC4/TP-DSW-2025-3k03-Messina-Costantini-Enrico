@@ -48,15 +48,15 @@ export default function InsumosPage() {
 
   const onEdit = (x: Insumo) => {
     setEditingId(x.id_insumo);
-    setNombre(x.nombre_insumo);
-    setDescripcion(x.descripcion_insumo ?? "");
+    setNombre(x.nombre);
+    setDescripcion(x.descripcion ?? "");
   };
 
   const onUpdate = async () => {
     if (!editingId) return;
     await updateInsumo(editingId, {
-      nombre_insumo: nombre,
-      descripcion_insumo: descripcion,
+      nombre,
+      descripcion,
       });
     resetForm();
     await load();
@@ -160,8 +160,8 @@ export default function InsumosPage() {
             {items.map((x) => (
               <tr key={x.id_insumo}>
                 <td className="border p-2">{x.id_insumo}</td>
-                <td className="border p-2">{x.nombre_insumo}</td>
-                <td className="border p-2">{x.descripcion_insumo ?? "-"}</td>
+                <td className="border p-2">{x.nombre}</td>
+                <td className="border p-2">{x.descripcion ?? "-"}</td>
                 <td className="border p-2 text-center">
                   <button
                     className="px-3 py-1 border rounded mr-2 hover:bg-gray-700"
