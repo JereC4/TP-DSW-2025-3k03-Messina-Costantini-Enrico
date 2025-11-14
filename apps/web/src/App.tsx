@@ -7,6 +7,8 @@ import InsumosPage from "./pages/InsumosPage";
 import ServiciosPage from "./pages/ServiciosPage";
 import PreciosPage from "./pages/PreciosPage";
 import CamposPage from "./pages/CamposPage";
+import LocalidadesPage from "./pages/LocalidadesPage";
+import ProvinciasPage from "./pages/ProvinciasPage";
 
 export default function App() {
   return (
@@ -77,6 +79,28 @@ export default function App() {
           </NavLink>
 
           <NavLink
+            to="/provincias"
+            className={({ isActive }) =>
+              `relative transition pb-1 hover:text-green-200 ${
+                isActive ? "text-green-200 after:w-full" : "after:w-0"
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+            }
+          >
+            Provincias
+          </NavLink>
+
+          <NavLink
+            to="/localidades"
+            className={({ isActive }) =>
+              `relative transition pb-1 hover:text-green-200 ${
+                isActive ? "text-green-200 after:w-full" : "after:w-0"
+              } after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-green-300 after:transition-all after:duration-300`
+            }
+          >
+            Localidades
+          </NavLink>
+
+          <NavLink
             to="/auth"
             className="bg-white text-green-800 font-semibold px-4 py-1.5 rounded-md hover:bg-green-100 transition shadow-sm"
           >
@@ -95,6 +119,8 @@ export default function App() {
           <Route path="/servicios" element={<ServiciosPage />} />
           <Route path="/precios" element={<PreciosPage />} />
           <Route path="/campos" element={<CamposPage />} />
+          <Route path="/provincias" element={<ProvinciasPage />} />
+          <Route path="/localidades" element={<LocalidadesPage />} />
           <Route
             path="*"
             element={
