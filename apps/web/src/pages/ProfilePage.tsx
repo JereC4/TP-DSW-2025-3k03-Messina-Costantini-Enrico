@@ -113,8 +113,9 @@ export default function ProfilePage() {
             email: updated.email,
             nombre: updated.nombre,
             apellido: updated.apellido,
-          };
-          localStorage.setItem("auth:user", JSON.stringify(merged));
+            roles: prev.roles ?? []
+            };
+            localStorage.setItem("auth:user", JSON.stringify(merged));
         } catch {
           localStorage.setItem(
             "auth:user",
