@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { getUsuario, updateUsuario, type UsuarioUpdateInput } from "../api/usuarios";
+import {
+  getUsuario,
+  updateUsuario,
+  type UsuarioUpdateInput,
+} from "../api/usuarios";
 import { getLocalidades, type Localidad } from "../api/localidades";
-import { getApiErrorMessage } from "../api/auth";
+import { getApiErrorMessage, type RoleName } from "../api/auth";
 import { Link } from "react-router-dom";
 
 type PerfilForm = {
@@ -16,7 +20,8 @@ type PerfilForm = {
 
 export default function ProfilePage() {
   const [userId, setUserId] = useState<number | null>(null);
-  const [userRoles, setUserRoles] = useState<string[]>([]);
+  const [userRoles, setUserRoles] = useState<RoleName[]>([]);
+
   const [form, setForm] = useState<PerfilForm>({
     email: "",
     nombre: "",
@@ -42,7 +47,11 @@ export default function ProfilePage() {
       }
 
       try {
-        const basic = JSON.parse(raw) as { id_user: number; roles: string[] };
+        const basic = JSON.parse(raw) as {
+          id_user: number;
+          roles?: RoleName[];
+        };
+
         setUserId(basic.id_user);
         setUserRoles(basic.roles ?? []);
 
@@ -58,6 +67,7 @@ export default function ProfilePage() {
           id_localidad: u.id_localidad ? String(u.id_localidad) : "",
         });
       } catch (e) {
+        console.error("Error inicializando perfil:", e);
         localStorage.removeItem("auth:user");
       } finally {
         setLoading(false);
@@ -83,6 +93,12 @@ export default function ProfilePage() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const toggleRole = (role: RoleName) => {
+    setUserRoles((prev) =>
+      prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role]
+    );
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userId) return;
@@ -99,6 +115,8 @@ export default function ProfilePage() {
       fecha_nac: form.fecha_nac || null,
       domicilio: form.domicilio.trim() || null,
       id_localidad: form.id_localidad ? Number(form.id_localidad) : null,
+      // 🔥 Mandamos roles explícitamente para que el backend NO los pierda
+      roles: userRoles,
     };
 
     try {
@@ -113,9 +131,9 @@ export default function ProfilePage() {
             email: updated.email,
             nombre: updated.nombre,
             apellido: updated.apellido,
-            roles: prev.roles ?? []
-            };
-            localStorage.setItem("auth:user", JSON.stringify(merged));
+            roles: userRoles, // 🔥 guardamos los roles elegidos
+          };
+          localStorage.setItem("auth:user", JSON.stringify(merged));
         } catch {
           localStorage.setItem(
             "auth:user",
@@ -124,6 +142,7 @@ export default function ProfilePage() {
               email: updated.email,
               nombre: updated.nombre,
               apellido: updated.apellido,
+              roles: userRoles,
             })
           );
         }
@@ -164,34 +183,40 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex items-start justify-center pt-16">
       <div className="w-full max-w-xl rounded-xl bg-slate-900/80 p-6 shadow-xl ring-1 ring-emerald-500/20">
-
         <h1 className="text-2xl font-bold mb-6 text-center text-emerald-300">
           Mi Perfil
         </h1>
 
-        {/* Roles */}
-        <div className="mb-6 text-center text-sm text-slate-300">
-          <p className="font-semibold mb-2">Roles asignados:</p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {userRoles.length > 0 ? (
-              userRoles.map((r) => (
-                <span
-                  key={r}
-                  className="px-3 py-1 rounded-full bg-emerald-700/40 text-emerald-300 border border-emerald-500/30 text-xs"
-                >
-                  {r}
-                </span>
-              ))
-            ) : (
-              <span className="text-slate-400">(sin roles)</span>
-            )}
+        {/* Roles: editable */}
+        <div className="mb-6 text-sm text-slate-300">
+          <p className="font-semibold mb-2 text-center">Roles asignados:</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={userRoles.includes("CLIENTE")}
+                onChange={() => toggleRole("CLIENTE")}
+              />
+              <span>Cliente</span>
+            </label>
+
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={userRoles.includes("PRESTAMISTA")}
+                onChange={() => toggleRole("PRESTAMISTA")}
+              />
+              <span>Prestamista</span>
+            </label>
           </div>
         </div>
 
         <form onSubmit={handleSave} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs mb-1 text-slate-300">Nombre</label>
+              <label className="block text-xs mb-1 text-slate-300">
+                Nombre
+              </label>
               <input
                 name="nombre"
                 value={form.nombre}
@@ -202,7 +227,9 @@ export default function ProfilePage() {
             </div>
 
             <div>
-              <label className="block text-xs mb-1 text-slate-300">Apellido</label>
+              <label className="block text-xs mb-1 text-slate-300">
+                Apellido
+              </label>
               <input
                 name="apellido"
                 value={form.apellido}
@@ -227,7 +254,9 @@ export default function ProfilePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs mb-1 text-slate-300">CUIL/CUIT</label>
+              <label className="block text-xs mb-1 text-slate-300">
+                CUIL/CUIT
+              </label>
               <input
                 name="cuil_cuit"
                 value={form.cuil_cuit}
@@ -251,7 +280,9 @@ export default function ProfilePage() {
           </div>
 
           <div>
-            <label className="block text-xs mb-1 text-slate-300">Domicilio</label>
+            <label className="block text-xs mb-1 text-slate-300">
+              Domicilio
+            </label>
             <input
               name="domicilio"
               value={form.domicilio}
@@ -261,7 +292,9 @@ export default function ProfilePage() {
           </div>
 
           <div>
-            <label className="block text-xs mb-1 text-slate-300">Localidad</label>
+            <label className="block text-xs mb-1 text-slate-300">
+              Localidad
+            </label>
             <select
               name="id_localidad"
               value={form.id_localidad}
