@@ -34,7 +34,7 @@ export function createApp() {
   app.use("/admins", adminRouter);
   app.use("/categorias-servicio", categoriaServicioRouter);
   app.use("/insumo", insumoRouter);
-  app.use("/servicio", servicioRouter);
+  app.use("/servicios", servicioRouter);
   app.use("/precio", precioRouter);
   app.use("/campos", campoRouter);
   app.use("/solicitudes", solicitudRouter);

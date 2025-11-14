@@ -12,15 +12,15 @@ Content-Type: application/json
 }
 
 ### detalle
-GET http://localhost:3000/clientes/3
+GET http://localhost:3000/clientes/7
 
 ### update
-PUT http://localhost:3000/clientes/3
+PUT http://localhost:3000/clientes/7
 Content-Type: application/json
 
 {
-  "actividad": "Productor y contratista"
+  "cuil_cuit": "20-46537774-8"
 }
 
 ### delete
-DELETE http://localhost:3000/clientes/3
+DELETE http://localhost:3000/clientes/8

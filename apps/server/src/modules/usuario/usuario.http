@@ -1,7 +1,3 @@
-### Listar (q, por localidad y por rol)
-GET http://localhost:3000/usuarios?q=juan&id_localidad=1&role=CLIENTE
-Accept: application/json
-
 ### Listar todos los usuarios
 GET http://localhost:3000/usuarios
 Accept: application/json
@@ -22,19 +18,19 @@ Content-Type: application/json
 
 ###
 # Detalle
-GET http://localhost:3000/usuarios/3
+GET http://localhost:3000/usuarios/7
 Accept: application/json
 
 ###
 # Actualizar (cambia rol y localidad)
-PUT http://localhost:3000/usuarios/6
+PUT http://localhost:3000/usuarios/7
 Content-Type: application/json
 
 {
-  "id_localidad": null,
-  "roles": ["CLIENTE", "ADMIN"]
+  "id_localidad": 1,
+  "roles": ["CLIENTE"]
 }
 
 ###
 # Borrar
-DELETE http://localhost:3000/usuarios/1
+DELETE http://localhost:3000/usuarios/3

@@ -1,5 +1,3 @@
-// apps/web/src/pages/PreciosPage.tsx
-
 import { useEffect, useState } from "react";
 import { getApiErrorMessage } from "../api/auth";
 import { getServicios, type Servicio } from "../api/servicios";

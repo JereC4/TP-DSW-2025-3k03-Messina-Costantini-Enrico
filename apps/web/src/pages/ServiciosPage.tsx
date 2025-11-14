@@ -1,268 +1,253 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-
 import { getApiErrorMessage } from "../api/auth";
-import { getServicios, type Servicio } from "../api/servicios";
 import {
-  getPrecios,
-  createPrecio,
-  updatePrecio,
-  deletePrecio,
-  type Precio,
-} from "../api/precios";
+  getServicios,
+  createServicio,
+  updateServicio,
+  deleteServicio,
+  type Servicio,
+} from "../api/servicios";
+import {
+  getCategoriasServicio,
+  type CategoriaServicio,
+} from "../api/categoriasServicio";
 
-type LocationState = {
-  id_servicio?: number;
-  nombre?: string;
-} | undefined;
-
-export default function PreciosPage() {
-  const location = useLocation() as { state?: LocationState };
-
-  // listado de servicios para elegir
-  const [servicios, setServicios] = useState<Servicio[]>([]);
-  const [selectedServicioId, setSelectedServicioId] = useState<number | "">("");
-
-  // histórico de precios del servicio seleccionado
-  const [precios, setPrecios] = useState<Precio[]>([]);
+export default function ServiciosPage() {
+  // listado + filtro
+  const [items, setItems] = useState<Servicio[]>([]);
+  const [q, setQ] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // form crear/editar precio
+  // catálogo de categorías
+  const [categorias, setCategorias] = useState<CategoriaServicio[]>([]);
+
+  // form crear/editar servicio
   const [editingId, setEditingId] = useState<number | null>(null);
-  const [valor, setValor] = useState<number>(0);
-  const [fechaDesde, setFechaDesde] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
+  const [nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [idCategoria, setIdCategoria] = useState<number | "">("");
 
-  const selectedServicio =
-    selectedServicioId === ""
-      ? undefined
-      : servicios.find((s) => s.id_servicio === Number(selectedServicioId));
-
-  useEffect(() => {
-    loadServicios();
-  }, []);
-
-  useEffect(() => {
-    if (selectedServicioId !== "") {
-      loadPrecios(Number(selectedServicioId));
-    } else {
-      setPrecios([]);
-    }
-  }, [selectedServicioId]);
-
-  async function loadServicios() {
+  // cargar servicios
+  const loadServicios = async () => {
     setLoading(true);
     try {
-      const data = await getServicios();
-      setServicios(data);
-
-      // si vengo desde ServiciosPage con un servicio seleccionado
-      const pre = location.state as LocationState;
-      if (pre?.id_servicio) {
-        setSelectedServicioId(pre.id_servicio);
-      }
+      const data = await getServicios(q);
+      setItems(data);
     } catch (e) {
       alert(getApiErrorMessage(e, "No se pudieron cargar los servicios"));
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function loadPrecios(id_servicio: number) {
-    setLoading(true);
+  // cargar categorías
+  const loadCategorias = async () => {
     try {
-      const data = await getPrecios(id_servicio);
-      setPrecios(data);
+      const data = await getCategoriasServicio("");
+      setCategorias(data);
     } catch (e) {
-      alert(getApiErrorMessage(e, "No se pudieron cargar los precios"));
-    } finally {
-      setLoading(false);
+      alert(getApiErrorMessage(e, "No se pudieron cargar las categorías"));
     }
-  }
+  };
 
-  function resetForm() {
+  useEffect(() => {
+    loadServicios();
+    loadCategorias();
+  }, []);
+
+  const resetForm = () => {
     setEditingId(null);
-    setValor(0);
-    setFechaDesde(new Date().toISOString().slice(0, 10));
-  }
+    setNombre("");
+    setDescripcion("");
+    setIdCategoria("");
+  };
 
-  async function onSubmitPrecio() {
-    if (selectedServicioId === "") {
-      alert("Primero seleccioná un servicio");
-      return;
-    }
-
-    if (!valor || valor <= 0) {
-      alert("El valor debe ser mayor a 0");
-      return;
-    }
-
+  // crear nuevo servicio
+  const onCreate = async () => {
+    if (!nombre.trim() || idCategoria === "") return;
     try {
-      if (editingId) {
-        await updatePrecio(editingId, { valor, fecha_desde: fechaDesde });
-      } else {
-        await createPrecio(Number(selectedServicioId), valor, fechaDesde);
-      }
+      await createServicio({
+        nombre,
+        descripcion,
+        id_categoria: Number(idCategoria),
+      });
       resetForm();
-      await loadPrecios(Number(selectedServicioId));
+      await loadServicios();
     } catch (e) {
-      alert(getApiErrorMessage(e, "No se pudo guardar el precio"));
+      alert(getApiErrorMessage(e, "No se pudo crear el servicio"));
     }
-  }
+  };
 
-  function onEditPrecio(p: Precio) {
-    setEditingId(p.id_precio);
-    setValor(p.valor);
-    setFechaDesde(p.fecha_desde.slice(0, 10));
-  }
+  // cargar datos en el form para editar
+  const onEdit = (s: Servicio) => {
+    setEditingId(s.id_servicio);
+    setNombre(s.nombre);
+    setDescripcion(s.descripcion ?? "");
+    setIdCategoria(s.id_categoria);
+  };
 
-  async function onDeletePrecio(id_precio: number) {
-    if (!confirm("¿Eliminar este precio?")) return;
+  // guardar cambios de un servicio existente
+  const onUpdate = async () => {
+    if (!editingId) return;
+    if (!nombre.trim() || idCategoria === "") return;
     try {
-      await deletePrecio(id_precio);
-      if (selectedServicioId !== "") {
-        await loadPrecios(Number(selectedServicioId));
-      }
+      await updateServicio(editingId, {
+        nombre,
+        descripcion,
+        id_categoria: Number(idCategoria),
+      });
+      resetForm();
+      await loadServicios();
     } catch (e) {
-      alert(getApiErrorMessage(e, "No se pudo eliminar el precio"));
+      alert(getApiErrorMessage(e, "No se pudo actualizar el servicio"));
     }
-  }
+  };
+
+  const onDelete = async (id: number) => {
+    if (!confirm("¿Eliminar servicio?")) return;
+    try {
+      await deleteServicio(id);
+      await loadServicios();
+    } catch (e) {
+      alert(getApiErrorMessage(e, "No se pudo borrar el servicio"));
+    }
+  };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto text-white">
-      <h1 className="text-4xl font-bold text-center mb-8">Precios</h1>
+    <div className="p-6 max-w-5xl mx-auto text-white">
+      <h1 className="text-4xl font-bold text-center mb-10">Servicios</h1>
 
-      {/* Selección de servicio */}
-      <div className="mb-8 flex flex-col items-center gap-3">
-        <label className="font-semibold">
-          Seleccioná un servicio para ver su historial de precios
-        </label>
-        <select
-          className="border px-3 py-2 rounded bg-transparent text-white w-full max-w-md"
-          value={selectedServicioId}
-          onChange={(e) => {
-            const v = e.target.value;
-            setSelectedServicioId(v === "" ? "" : Number(v));
-          }}
-        >
-          <option value="">-- Elegir servicio --</option>
-          {servicios.map((s) => (
-            <option key={s.id_servicio} value={s.id_servicio}>
-              {s.nombre}
-            </option>
-          ))}
-        </select>
-
-        {selectedServicio && (
-          <p className="text-sm text-gray-300">
-            Servicio seleccionado:{" "}
-            <span className="font-semibold">{selectedServicio.nombre}</span>
-          </p>
-        )}
+      {/* Filtro */}
+      <div className="flex justify-center mb-8">
+        <div className="flex gap-4 w-full max-w-md">
+          <input
+            className="border px-3 py-2 rounded w-full bg-transparent text-white"
+            placeholder="Buscar por nombre o descripción"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && loadServicios()}
+          />
+          <button
+            className="bg-green-700 px-4 py-2 rounded hover:bg-green-800 transition"
+            onClick={loadServicios}
+          >
+            Buscar
+          </button>
+        </div>
       </div>
 
-      {/* Formulario de precio */}
+      {/* Form crear/editar */}
       <div className="bg-[#1e1e1e] border rounded p-6 max-w-md mx-auto mb-10 shadow-md">
         <h2 className="text-xl font-semibold text-center mb-4">
-          {editingId ? "Editar precio" : "Nuevo precio"}
+          {editingId ? "Editar servicio" : "Nuevo servicio"}
         </h2>
 
         <div className="flex flex-col gap-3">
           <input
-            type="number"
             className="border px-3 py-2 rounded bg-transparent text-white"
-            placeholder="Valor"
-            value={valor}
-            onChange={(e) => setValor(Number(e.target.value))}
+            placeholder="Nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+          />
+          <input
+            className="border px-3 py-2 rounded bg-transparent text-white"
+            placeholder="Descripción"
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
           />
 
-          <div className="flex flex-col gap-1">
-            <label className="text-sm text-gray-300">Fecha desde</label>
-            <input
-              type="date"
-              className="border px-3 py-2 rounded bg-transparent text-white"
-              value={fechaDesde}
-              onChange={(e) => setFechaDesde(e.target.value)}
-            />
-          </div>
+          <select
+            className="border px-3 py-2 rounded bg-transparent text-white"
+            value={idCategoria}
+            onChange={(e) =>
+              setIdCategoria(
+                e.target.value === "" ? "" : Number(e.target.value)
+              )
+            }
+          >
+            <option value="">Seleccionar categoría</option>
+            {categorias.map((c) => (
+              <option key={c.id_categoria} value={c.id_categoria}>
+                {c.nombre}
+              </option>
+            ))}
+          </select>
 
-          <div className="flex gap-3 justify-center mt-2">
-            <button
-              className="bg-green-600 px-4 py-2 rounded hover:bg-green-700 transition"
-              onClick={onSubmitPrecio}
-            >
-              {editingId ? "Guardar cambios" : "Crear precio"}
-            </button>
-            {editingId && (
+          {editingId ? (
+            <div className="flex gap-3 justify-center mt-2">
+              <button
+                className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 transition"
+                onClick={onUpdate}
+              >
+                Guardar
+              </button>
               <button
                 className="px-4 py-2 rounded border"
                 onClick={resetForm}
               >
                 Cancelar
               </button>
-            )}
-          </div>
+            </div>
+          ) : (
+            <button
+              className="bg-green-600 px-4 py-2 rounded hover:bg-green-700 transition mt-2"
+              onClick={onCreate}
+            >
+              Crear
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Tabla de historial */}
+      {/* Tabla */}
       <div className="overflow-auto">
         <table className="w-full border">
           <thead className="bg-[#2d6a4f] text-white">
             <tr>
               <th className="border p-2">ID</th>
-              <th className="border p-2">Valor</th>
-              <th className="border p-2">Fecha desde</th>
+              <th className="border p-2">Nombre</th>
+              <th className="border p-2">Descripción</th>
+              <th className="border p-2">Categoría</th>
               <th className="border p-2">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
               <tr>
-                <td colSpan={4} className="p-4 text-center">
+                <td colSpan={5} className="p-4 text-center">
                   Cargando...
                 </td>
               </tr>
             )}
-
-            {!loading &&
-              precios.map((p) => (
-                <tr key={p.id_precio}>
-                  <td className="border p-2">{p.id_precio}</td>
-                  <td className="border p-2">{p.valor}</td>
-                  <td className="border p-2">
-                    {p.fecha_desde.slice(0, 10)}
-                  </td>
-                  <td className="border p-2 text-center">
-                    <button
-                      className="px-3 py-1 border rounded mr-2 hover:bg-gray-700"
-                      onClick={() => onEditPrecio(p)}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      className="px-3 py-1 border rounded text-red-500 hover:bg-gray-700"
-                      onClick={() => onDeletePrecio(p.id_precio)}
-                    >
-                      Borrar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-
-            {!loading && precios.length === 0 && selectedServicioId !== "" && (
-              <tr>
-                <td colSpan={4} className="p-4 text-center text-gray-400">
-                  Este servicio todavía no tiene precios cargados
+            {items.map((s) => (
+              <tr key={s.id_servicio}>
+                <td className="border p-2">{s.id_servicio}</td>
+                <td className="border p-2">{s.nombre}</td>
+                <td className="border p-2">{s.descripcion ?? "-"}</td>
+                <td className="border p-2">
+                  {/* si tu backend manda nombre de categoría lo mostrás acá */}
+                  {"id_categoria" in s ? s.id_categoria : "-"}
+                </td>
+                <td className="border p-2 text-center">
+                  <button
+                    className="px-3 py-1 border rounded mr-2 hover:bg-gray-700"
+                    onClick={() => onEdit(s)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="px-3 py-1 border rounded text-red-500 hover:bg-gray-700"
+                    onClick={() => onDelete(s.id_servicio)}
+                  >
+                    Borrar
+                  </button>
                 </td>
               </tr>
-            )}
-
-            {!loading && selectedServicioId === "" && (
+            ))}
+            {!loading && items.length === 0 && (
               <tr>
-                <td colSpan={4} className="p-4 text-center text-gray-400">
-                  Seleccioná un servicio para ver los precios
+                <td colSpan={5} className="p-4 text-center text-gray-400">
+                  Sin resultados
                 </td>
               </tr>
             )}
@@ -272,4 +257,5 @@ export default function PreciosPage() {
     </div>
   );
 }
+
 
