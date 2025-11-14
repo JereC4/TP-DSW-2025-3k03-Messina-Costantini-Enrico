@@ -157,21 +157,30 @@ export default function ServiciosPage() {
           />
 
           <select
-            className="border px-3 py-2 rounded bg-transparent text-white"
-            value={idCategoria}
-            onChange={(e) =>
-              setIdCategoria(
-                e.target.value === "" ? "" : Number(e.target.value)
-              )
-            }
+            value={idCategoria ?? ""}
+            onChange={(e) => setIdCategoria(Number(e.target.value))}
+            className="
+              border px-3 py-2 rounded
+              bg-[#1F1F1F] text-white
+              appearance-none
+              focus:outline-none focus:ring-2 focus:ring-green-500
+            "
           >
-            <option value="">Seleccionar categoría</option>
+            <option value="" className="bg-[#1F1F1F] text-gray-300">
+              Seleccionar categoría
+            </option>
+
             {categorias.map((c) => (
-              <option key={c.id_categoria} value={c.id_categoria}>
+              <option
+                key={c.id_categoria}
+                value={c.id_categoria}
+                className="bg-[#1F1F1F] text-white"
+              >
                 {c.nombre}
               </option>
             ))}
           </select>
+          
 
           {editingId ? (
             <div className="flex gap-3 justify-center mt-2">
