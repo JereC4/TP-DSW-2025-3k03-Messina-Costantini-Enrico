@@ -5,10 +5,11 @@ export interface Servicio {
   nombre: string;
   descripcion?: string | null;
   id_categoria: number;
+  id_prestamista: number; // SI CAMBIAMOS EL SCHEMA PARA QUE SERVICIO NO DEPENDA DE PRESTAMISTA ESTO LO VOLAMOS
   categoria?: {
     id_categoria: number;
     nombre: string;
-  };
+  } | null;
 }
 
 // Listar (opcionalmente filtrando por nombre o categoría)
@@ -24,6 +25,7 @@ export const createServicio = async (data: {
   nombre: string;
   descripcion?: string | null;
   id_categoria: number;
+  id_prestamista: number; // SI CAMBIAMOS EL SCHEMA ESTO LO VOLAMOS
 }) => (await api.post<Servicio>("/servicios", data)).data;
 
 // Actualizar
@@ -33,6 +35,7 @@ export const updateServicio = async (
     nombre: string;
     descripcion?: string | null;
     id_categoria: number;
+    id_prestamista: number; // SI CAMBIAMOS EL SCHEMA ESTO LO VOLAMOS
   }>
 ) => (await api.put<Servicio>(`/servicios/${id}`, data)).data;
 

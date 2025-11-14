@@ -26,6 +26,7 @@ export default function ServiciosPage() {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [idCategoria, setIdCategoria] = useState<number | "">("");
+  const [idPrestamista, setIdPrestamista] = useState<number | "">("");
 
   // cargar servicios
   const loadServicios = async () => {
@@ -60,16 +61,18 @@ export default function ServiciosPage() {
     setNombre("");
     setDescripcion("");
     setIdCategoria("");
+    setIdPrestamista("");
   };
 
   // crear nuevo servicio
   const onCreate = async () => {
-    if (!nombre.trim() || idCategoria === "") return;
+    if (!nombre.trim() || idCategoria === "" || idPrestamista === "") return;
     try {
       await createServicio({
         nombre,
         descripcion,
         id_categoria: Number(idCategoria),
+        id_prestamista: Number(idPrestamista),
       });
       resetForm();
       await loadServicios();
@@ -84,17 +87,19 @@ export default function ServiciosPage() {
     setNombre(s.nombre);
     setDescripcion(s.descripcion ?? "");
     setIdCategoria(s.id_categoria);
+    setIdPrestamista(s.id_prestamista);
   };
 
   // guardar cambios de un servicio existente
   const onUpdate = async () => {
     if (!editingId) return;
-    if (!nombre.trim() || idCategoria === "") return;
+    if (!nombre.trim() || idCategoria === "" || idPrestamista === "") return;
     try {
       await updateServicio(editingId, {
         nombre,
         descripcion,
         id_categoria: Number(idCategoria),
+        id_prestamista: Number(idPrestamista), // SI CAMBIAMOS EL SCHEMA ESTO LO VOLAMOS
       });
       resetForm();
       await loadServicios();
@@ -157,6 +162,7 @@ export default function ServiciosPage() {
           />
 
           <select
+
             value={idCategoria ?? ""}
             onChange={(e) => setIdCategoria(Number(e.target.value))}
             className="
@@ -181,6 +187,17 @@ export default function ServiciosPage() {
             ))}
           </select>
           
+          <input
+          className="border px-3 py-2 rounded bg-transparent text-white"
+          placeholder="ID prestamista"
+          type="number"
+          value={idPrestamista}
+          onChange={(e) =>
+            setIdPrestamista(
+              e.target.value === "" ? "" : Number(e.target.value)
+            )
+          }
+        />
 
           {editingId ? (
             <div className="flex gap-3 justify-center mt-2">
@@ -234,7 +251,7 @@ export default function ServiciosPage() {
                 <td className="border p-2">{s.nombre}</td>
                 <td className="border p-2">{s.descripcion ?? "-"}</td>
                 <td className="border p-2">
-                  {/* si tu backend manda nombre de categoría lo mostrás acá */}
+                  {/* DESPUES TENEMOS QUE CAMBIAR ESTO Y MOSTRAR EL NOMBRE EN VEZ DEL c.id */}
                   {"id_categoria" in s ? s.id_categoria : "-"}
                 </td>
                 <td className="border p-2 text-center">
