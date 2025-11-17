@@ -19,13 +19,20 @@ type ServicioOption = {
 
 type CampoOption = {
   id_campo: number;
-  nombre: string;
+  id_cliente: number;
+  coordenadas: string;
+  hectareas: string;
+  cliente_profile: unknown;
 };
 
 type UsuarioOption = {
   id_user: number;
-  nombre: string;
-  apellido: string;
+  cuit: string | null;
+  users: {
+    nombre: string;
+    apellido: string;
+    email: string;
+  };
 };
 
 export default function SolicitudesPage() {
@@ -67,6 +74,8 @@ export default function SolicitudesPage() {
         api.get<UsuarioOption[]>("/prestamistas"),
         api.get<CampoOption[]>("/campos"),
       ]);
+
+      console.log("CAMPOS API:", campRes.data);
 
       setServicios(servRes.data);
       setClientes(cliRes.data);
@@ -154,8 +163,10 @@ export default function SolicitudesPage() {
     }
   };
 
-  const formatUsuario = (u?: UsuarioOption) =>
-    u ? `${u.nombre} ${u.apellido}` : "";
+  const formatUsuario = (u?: UsuarioOption) => {
+    if (!u) return "";
+    return `${u.users.nombre} ${u.users.apellido}`;
+  };
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center py-10">
@@ -253,11 +264,11 @@ export default function SolicitudesPage() {
             }
           >
             <option value="">Seleccionar campo</option>
-            {campos.map((c) => (
-              <option key={c.id_campo} value={c.id_campo}>
-                {c.nombre}
-              </option>
-            ))}
+              {campos.map((c) => (
+                <option key={c.id_campo} value={c.id_campo}>
+                  {c.coordenadas} - {c.hectareas} ha
+                </option>
+              ))}
           </select>
 
           {/* Hectáreas */}
