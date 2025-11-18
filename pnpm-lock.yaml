@@ -27,7 +27,7 @@ importers:
   apps/server:
     dependencies:
       '@repo/db':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/database
       bcrypt:
         specifier: ^6.0.0
