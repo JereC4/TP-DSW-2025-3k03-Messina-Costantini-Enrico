@@ -20,6 +20,9 @@ importers:
       turbo:
         specifier: ^2.5.8
         version: 2.5.8
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
 
   apps/server:
     dependencies:
@@ -141,11 +144,11 @@ importers:
     dependencies:
       '@prisma/client':
         specifier: ^6.17.1
-        version: 6.17.1(prisma@6.17.1)
+        version: 6.17.1(prisma@6.17.1)(typescript@5.5.4)
     devDependencies:
       prisma:
         specifier: ^6.17.1
-        version: 6.17.1
+        version: 6.17.1(typescript@5.5.4)
 
   packages/eslint-config:
     dependencies:
@@ -1039,7 +1042,7 @@ packages:
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
     dev: true
 
-  /@prisma/client@6.17.1(prisma@6.17.1):
+  /@prisma/client@6.17.1(prisma@6.17.1)(typescript@5.5.4):
     resolution: {integrity: sha512-zL58jbLzYamjnNnmNA51IOZdbk5ci03KviXCuB0Tydc9btH2kDWsi1pQm2VecviRTM7jGia0OPPkgpGnT3nKvw==}
     engines: {node: '>=18.18'}
     requiresBuild: true
@@ -1052,7 +1055,8 @@ packages:
       typescript:
         optional: true
     dependencies:
-      prisma: 6.17.1
+      prisma: 6.17.1(typescript@5.5.4)
+      typescript: 5.5.4
     dev: false
 
   /@prisma/config@6.17.1:
@@ -3716,7 +3720,7 @@ packages:
       react-is: 17.0.2
     dev: true
 
-  /prisma@6.17.1:
+  /prisma@6.17.1(typescript@5.5.4):
     resolution: {integrity: sha512-ac6h0sM1Tg3zu8NInY+qhP/S9KhENVaw9n1BrGKQVFu05JT5yT5Qqqmb8tMRIE3ZXvVj4xcRA5yfrsy4X7Yy5g==}
     engines: {node: '>=18.18'}
     hasBin: true
@@ -3729,6 +3733,7 @@ packages:
     dependencies:
       '@prisma/config': 6.17.1
       '@prisma/engines': 6.17.1
+      typescript: 5.5.4
     transitivePeerDependencies:
       - magicast
 

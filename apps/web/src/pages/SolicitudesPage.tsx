@@ -75,8 +75,6 @@ export default function SolicitudesPage() {
         api.get<CampoOption[]>("/campos"),
       ]);
 
-      console.log("CAMPOS API:", campRes.data);
-
       setServicios(servRes.data);
       setClientes(cliRes.data);
       setPrestamistas(presRes.data);
@@ -92,6 +90,7 @@ export default function SolicitudesPage() {
       const data = await getSolicitudes(
         estadoFilter === "" ? undefined : estadoFilter
       );
+      console.log(data);
       setItems(data);
     } catch (e) {
       alert(getApiErrorMessage(e, "No se pudieron cargar las solicitudes"));
