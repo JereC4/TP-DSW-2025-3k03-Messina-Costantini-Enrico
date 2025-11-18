@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
-import { prisma } from '../../../../../packages/database/src/client.js';
+import { prisma } from "@repo/db";
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {

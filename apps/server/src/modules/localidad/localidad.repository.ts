@@ -1,4 +1,4 @@
-import { prisma } from '../../../../../packages/database/src/client.js';
+import { prisma } from "@repo/db";
 
 export const localidadRepo = {
   list: (q?: string, id_provincia?: bigint) =>

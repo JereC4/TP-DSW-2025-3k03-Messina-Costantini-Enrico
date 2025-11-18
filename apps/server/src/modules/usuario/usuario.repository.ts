@@ -1,4 +1,4 @@
-import { prisma } from '../../../../../packages/database/src/client.js';
+import { prisma } from '@repo/db';
 
 export const usuarioRepo = {
   list: (q?: string, id_localidad?: bigint, roleName?: string) =>

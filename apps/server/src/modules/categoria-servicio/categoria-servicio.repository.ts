@@ -1,4 +1,4 @@
-import { prisma } from '../../../../../packages/database/src/client.js';
+import { prisma } from "@repo/db";
 
 export const categoriaServicioRepo = {
   list: (q?: string, page?: number, pageSize?: number) => {

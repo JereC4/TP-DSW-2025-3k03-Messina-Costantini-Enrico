@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import type { UsuarioCreateDto, UsuarioUpdateDto } from './usuario.schema.js';
 import { usuarioRepo } from './usuario.repository.js';
-import { prisma } from '../../../../../packages/database/src/client.js';
+import { prisma } from '@repo/db';
 
 async function rolesByNames(names: string[]): Promise<number[]> {
   if (!names.length) return [];
