@@ -34,6 +34,7 @@ export default function AuthPage({ onAuthChange }: AuthPageProps) {
         onAuthChange?.(u); // sincronizar si ya estaba logueado
       } catch {
         localStorage.removeItem("auth:user");
+        onAuthChange?.(null); // sincronizar si hubo error
       }
     }
   }, [onAuthChange]);
