@@ -22,9 +22,15 @@ import { errorMiddleware } from '../errors/errorMiddleware.js';
 
 export function createApp() {
   const app = express();
-  app.use(cors());
+
+  app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://agroapp.dev"],
+    credentials: true,
+  }));
   app.use(express.json());
   app.use(morgan('dev'));
+
   app.use('/provincias', provinciaRouter);
   app.use('/localidades', localidadRouter);
   app.use('/usuarios', usuarioRouter);

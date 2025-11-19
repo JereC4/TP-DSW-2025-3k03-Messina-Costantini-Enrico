@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { login, RoleName, signup, type AuthUser } from "../api/auth";
-import { useNavigate } from "react-router-dom";
 
 type FormState = {
   email: string;
@@ -82,7 +81,6 @@ export default function AuthPage({ onAuthChange }: AuthPageProps) {
 
   // Vista cuando el usuario ya está logueado
   if (user) {
-    const navigate = useNavigate();
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 flex items-start justify-center pt-16">
         <div className="w-full max-w-md rounded-xl bg-slate-900/80 p-6 shadow-xl ring-1 ring-emerald-500/20">
@@ -103,7 +101,6 @@ export default function AuthPage({ onAuthChange }: AuthPageProps) {
               setUser(null);
               localStorage.removeItem("auth:user");
               onAuthChange?.(null); // 🔔 avisamos que se deslogueó
-              navigate("/auth");
             }}
           >
             Cerrar sesión
