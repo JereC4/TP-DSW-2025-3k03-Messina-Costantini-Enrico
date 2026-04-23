@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "build": "pnpm dlx turbo@2.6.1 run build",
+    "dev": "pnpm dlx turbo@2.6.1 run dev",
+    "lint": "pnpm dlx turbo@2.6.1 run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
