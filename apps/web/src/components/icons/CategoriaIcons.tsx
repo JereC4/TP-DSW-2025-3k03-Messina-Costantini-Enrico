@@ -3,11 +3,11 @@ import type { ComponentType, SVGProps } from "react";
 
 export type IconProps = SVGProps<SVGSVGElement>;
 
-const base = { fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+const base = { fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
 export function SiembraIcon(props: IconProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.9} {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.5} {...props}>
       <path d="M4 16h5c1.1 0 2.1.6 2.6 1.6l.8 1.5c.4.8 1.2 1.3 2.1 1.3h.1c.9 0 1.7-.5 2.1-1.3l.8-1.5c.5-1 1.5-1.6 2.6-1.6h3" />
       <circle cx="12" cy="11.4" r="0.55" fill="currentColor" stroke="none" />
       <circle cx="12" cy="13.6" r="0.55" fill="currentColor" stroke="none" />
@@ -19,7 +19,7 @@ export function SiembraIcon(props: IconProps) {
 
 export function CosechaIcon(props: IconProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.9} {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.5} {...props}>
       <circle cx="6.4" cy="17.5" r="1.6" />
       <circle cx="14.2" cy="16.8" r="2.5" />
       <path d="M3.2 15.9v-4.6c0-1 .8-1.8 1.8-1.8h2.6l3.4 1h5.2l1.3 3.1v2.3" />
@@ -35,7 +35,7 @@ export function CosechaIcon(props: IconProps) {
 
 export function PulverizacionIcon(props: IconProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.7} {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.3} {...props}>
       <path d="M3 6.5h18" />
       <path d="M6 6.5v2.2" />
       <path d="M12 6.5v2.2" />
@@ -75,7 +75,7 @@ export function FertilizacionIcon(props: IconProps) {
 
 export function LaboreoIcon(props: IconProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.9} {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.5} {...props}>
       <circle cx="12.2" cy="14.6" r="2.6" />
       <circle cx="18.3" cy="16.3" r="1.7" />
       <path d="M8.8 11.4H16c2.2 0 4 1.8 4 4v0.3" />
