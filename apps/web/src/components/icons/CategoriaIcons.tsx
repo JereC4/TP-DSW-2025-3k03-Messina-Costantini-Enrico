@@ -19,14 +19,18 @@ export function SiembraIcon(props: IconProps) {
 
 export function CosechaIcon(props: IconProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.5} {...props}>
-      <path d="M2 8V6.2H3.8L9.6 7" />
-      <path d="M9.6 7H15V10.3H9.6Z" />
-      <path d="M6.6 13V10.3H9.4" />
-      <path d="M15 8.6H17.6L18.3 10V13.3H16" />
-      <path d="M16 13.3H21.3L22.2 16H17Z" />
-      <circle cx="6" cy="17" r="1.5" />
-      <circle cx="11.5" cy="17.3" r="2.4" />
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.35} {...props}>
+      <path d="M10.4 9.7 7.3 8.4 5.1 7.1H2.9" />
+      <path d="M2.9 7.1v1.2" />
+      <path d="M8.4 6.7h6.8l-1.2 2.4H9.5Z" />
+      <path d="M5.1 15.7c-.8 0-1.5-.4-1.9-1-.4-.7-.4-1.5 0-2.2l1.4-2.8c.4-.7 1.1-1.1 1.9-1.1h4" />
+      <circle cx="6.2" cy="17.1" r="1.4" />
+      <circle cx="12.6" cy="16.7" r="2.6" />
+      <path d="M7.6 17.1h2.4" />
+      <path d="M14.8 9.3h2.9l-.4 4.6H16a1.2 1.2 0 0 1-1.2-1.2Z" />
+      <path d="M16 13.9v1.2l1.5 1.3" />
+      <path d="M17.2 15.6h3.4l1.4 1.5h-4.1l-1.5-1.2" />
+      <path d="M17.7 16.8h3.7" />
     </svg>
   );
 }
