@@ -20,15 +20,13 @@ export function SiembraIcon(props: IconProps) {
 export function CosechaIcon(props: IconProps) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.5} {...props}>
-      <circle cx="7" cy="17" r="2.4" />
-      <circle cx="17" cy="17.3" r="1.4" />
-      <path d="M1.5 13.2H7V15" />
-      <path d="M2.2 13.2 1.8 14.6" />
-      <path d="M3.2 13.2 2.8 14.6" />
-      <path d="M4.2 13.2 3.8 14.6" />
-      <path d="M8 13V9.8H9.6L11 8.3H17V16.6" />
-      <path d="M14 8.3 16.5 5.5H18" />
-      <path d="M1 19h20" />
+      <path d="M2 8V6.2H3.8L9.6 7" />
+      <path d="M9.6 7H15V10.3H9.6Z" />
+      <path d="M6.6 13V10.3H9.4" />
+      <path d="M15 8.6H17.6L18.3 10V13.3H16" />
+      <path d="M16 13.3H21.3L22.2 16H17Z" />
+      <circle cx="6" cy="17" r="1.5" />
+      <circle cx="11.5" cy="17.3" r="2.4" />
     </svg>
   );
 }
