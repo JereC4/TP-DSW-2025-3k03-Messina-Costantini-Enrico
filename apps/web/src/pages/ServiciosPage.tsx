@@ -5,7 +5,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import { categorias as categoriasApi, provincias as provinciasApi, servicios as serviciosApi } from "../api";
 import type { Servicio } from "../api/types";
 import { AnimatedPage } from "../components/layout/AppShell";
-import { CategoriaIcon } from "../components/icons/CategoriaIcons";
 import { Alert, EmptyState, Field, Input, PageHeader, Pagination, Select, SkeletonCard, Stars } from "../components/ui";
 import { fmtMoney, fullName, pluralize, ubicacion } from "../lib/format";
 import { useDebounce } from "../lib/useDebounce";
@@ -17,10 +16,7 @@ export function ServicioCard({ s, index = 0 }: { s: Servicio; index?: number }) 
       <Link to={`/servicios/${s.id_servicio}`} className="surface surface-hover flex h-full flex-col p-5">
         <div className="flex items-start justify-between gap-3">
           <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-semibold text-brand-800 dark:bg-brand-900/40 dark:text-brand-100">{s.categoria?.nombre ?? "Sin categoría"}</span>
-          <div className="flex items-center gap-2">
-            {typeof s.trabajos_completados === "number" && s.trabajos_completados > 0 && <span className="text-xs text-stone-500">{pluralize(s.trabajos_completados, "trabajo", "trabajos")}</span>}
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-200"><CategoriaIcon categoria={s.categoria?.nombre} className="h-5 w-5" /></span>
-          </div>
+          {typeof s.trabajos_completados === "number" && s.trabajos_completados > 0 && <span className="text-xs text-stone-500">{pluralize(s.trabajos_completados, "trabajo", "trabajos")}</span>}
         </div>
         <h3 className="mt-3 text-lg font-bold leading-snug text-stone-900 dark:text-white">{s.nombre}</h3>
         {s.descripcion && <p className="mt-1 line-clamp-2 text-sm text-stone-600 dark:text-stone-400">{s.descripcion}</p>}
