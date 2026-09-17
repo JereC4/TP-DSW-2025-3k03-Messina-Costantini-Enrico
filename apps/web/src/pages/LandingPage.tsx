@@ -59,7 +59,7 @@ export default function LandingPage() {
                 {(destacados.data?.items ?? []).slice(0, 4).map((s) => (
                   <li key={s.id_servicio}>
                     <Link to={`/servicios/${s.id_servicio}`} className="flex items-center gap-3 py-3 transition hover:opacity-80">
-                      <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-200"><CategoriaIcon categoria={s.categoria?.nombre} className="h-9 w-9" /></span>
+                      <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700 dark:bg-brand-900/40 dark:text-brand-200"><CategoriaIcon categoria={s.categoria?.nombre} className="h-10 w-10" /></span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-semibold">{s.nombre}</span>
                         <span className="block truncate text-xs text-stone-500">{fullName(s.contratista_profile?.users)} · {ubicacion(s.contratista_profile?.users.localidad)}</span>
