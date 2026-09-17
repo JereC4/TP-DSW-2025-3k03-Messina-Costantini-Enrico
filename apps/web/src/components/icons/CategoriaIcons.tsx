@@ -36,7 +36,7 @@ export function CosechaIcon(props: IconProps) {
 export function PulverizacionIcon(props: IconProps) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.3} {...props}>
-      <path d="M3 6.5h18" />
+      <path d="M2 6.5h20" />
       <path d="M6 6.5v2.2" />
       <path d="M12 6.5v2.2" />
       <path d="M18 6.5v2.2" />
@@ -44,14 +44,14 @@ export function PulverizacionIcon(props: IconProps) {
       <path d="M11.4 8.8h1.2l-0.6 1Z" />
       <path d="M17.4 8.8h1.2l-0.6 1Z" />
       <path d="M6 10.5v1.4" />
-      <path d="M5 10.8 4.2 11.8" />
-      <path d="M7 10.8 7.8 11.8" />
+      <path d="M5.2 10.8 4.7 11.4" />
+      <path d="M6.8 10.8 7.3 11.4" />
       <path d="M12 10.5v1.4" />
-      <path d="M11 10.8 10.2 11.8" />
-      <path d="M13 10.8 13.8 11.8" />
+      <path d="M11.2 10.8 10.7 11.4" />
+      <path d="M12.8 10.8 13.3 11.4" />
       <path d="M18 10.5v1.4" />
-      <path d="M17 10.8 16.2 11.8" />
-      <path d="M19 10.8 19.8 11.8" />
+      <path d="M17.2 10.8 16.7 11.4" />
+      <path d="M18.8 10.8 19.3 11.4" />
     </svg>
   );
 }
@@ -60,15 +60,15 @@ export function FertilizacionIcon(props: IconProps) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} {...props}>
       <path d="M5 5.5h14v2H5Z" />
-      <path d="M6.8 7.5h10.4l-1.8 4.3H8.6Z" />
-      <path d="M9.4 11.8v2.1" />
-      <path d="M14.6 11.8v2.1" />
+      <path d="M6.8 7.5h10.4l-2.8 4.3H9.6Z" />
+      <path d="M10.4 11.8v2.1" />
+      <path d="M13.6 11.8v2.1" />
       <path d="M7 14h10" />
       <rect x="4" y="13.6" width="2" height="5.2" rx="0.9" />
       <rect x="18" y="13.6" width="2" height="5.2" rx="0.9" />
-      <circle cx="8.8" cy="18.2" r="0.45" fill="currentColor" stroke="none" />
-      <circle cx="12" cy="16.8" r="0.45" fill="currentColor" stroke="none" />
-      <circle cx="15.2" cy="18.2" r="0.45" fill="currentColor" stroke="none" />
+      <circle cx="9" cy="18.2" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="16.8" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="18.2" r="0.6" fill="currentColor" stroke="none" />
     </svg>
   );
 }
