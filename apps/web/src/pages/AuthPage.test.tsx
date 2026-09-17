@@ -55,8 +55,21 @@ describe("AuthPage", () => {
     fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: "N" } });
     fireEvent.change(screen.getByLabelText(/^Apellido/), { target: { value: "A" } });
     fireEvent.change(screen.getByLabelText(/^Email/), { target: { value: "n@n.dev" } });
+    fireEvent.change(screen.getByLabelText(/^Confirmar email/), { target: { value: "n@n.dev" } });
     fireEvent.change(screen.getByLabelText(/^Contraseña/), { target: { value: "Password1!" } });
     fireEvent.click(screen.getByRole("button", { name: "Crear cuenta" }));
     await waitFor(() => expect(mocks.register).toHaveBeenCalledWith(expect.objectContaining({ rol: "CONTRATISTA", email: "n@n.dev" })));
+  });
+
+  it("en modo registro no envía si el email de confirmación no coincide", async () => {
+    renderPage("register");
+    fireEvent.change(screen.getByLabelText(/^Nombre/), { target: { value: "N" } });
+    fireEvent.change(screen.getByLabelText(/^Apellido/), { target: { value: "A" } });
+    fireEvent.change(screen.getByLabelText(/^Email/), { target: { value: "n@n.dev" } });
+    fireEvent.change(screen.getByLabelText(/^Confirmar email/), { target: { value: "otro@n.dev" } });
+    fireEvent.change(screen.getByLabelText(/^Contraseña/), { target: { value: "Password1!" } });
+    fireEvent.click(screen.getByRole("button", { name: "Crear cuenta" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Los emails no coinciden");
+    expect(mocks.register).not.toHaveBeenCalled();
   });
 });

@@ -11,8 +11,8 @@ import { Alert, Button, Field, Input, Select } from "../components/ui";
 import { cn } from "../lib/cn";
 
 type Mode = "login" | "register";
-type FormState = { email: string; password: string; nombre: string; apellido: string; rol: "PRODUCTOR" | "CONTRATISTA"; id_localidad: string; telefono: string };
-const initial: FormState = { email: "", password: "", nombre: "", apellido: "", rol: "PRODUCTOR", id_localidad: "", telefono: "" };
+type FormState = { email: string; emailConfirm: string; password: string; nombre: string; apellido: string; rol: "PRODUCTOR" | "CONTRATISTA"; id_localidad: string; telefono: string };
+const initial: FormState = { email: "", emailConfirm: "", password: "", nombre: "", apellido: "", rol: "PRODUCTOR", id_localidad: "", telefono: "" };
 
 type Props = {
   /** Modo inicial (input property). */
@@ -42,9 +42,15 @@ export default function AuthPage({ mode = "login", onAuthenticated }: Props) {
 
   const set = (name: keyof FormState) => (e: { target: { value: string } }) => setForm((p) => ({ ...p, [name]: e.target.value }));
 
+  const emailMismatch = mode === "register" && form.emailConfirm.length > 0 && form.email !== form.emailConfirm;
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
+    if (mode === "register" && form.email !== form.emailConfirm) {
+      setError("Los emails no coinciden");
+      return;
+    }
     setSubmitting(true);
     try {
       const u =
@@ -104,6 +110,11 @@ export default function AuthPage({ mode = "login", onAuthenticated }: Props) {
             )}
 
             <Field label="Email" required><Input type="email" name="email" value={form.email} onChange={set("email")} required autoComplete="email" placeholder="vos@ejemplo.com" /></Field>
+            {mode === "register" && (
+              <Field label="Confirmar email" required error={emailMismatch ? "Los emails no coinciden" : undefined}>
+                <Input type="email" name="emailConfirm" value={form.emailConfirm} onChange={set("emailConfirm")} required autoComplete="email" placeholder="vos@ejemplo.com" onPaste={(e) => e.preventDefault()} />
+              </Field>
+            )}
             <Field label="Contraseña" required hint={mode === "register" ? "Mínimo 8 caracteres" : undefined}>
               <Input type="password" name="password" value={form.password} onChange={set("password")} required minLength={mode === "register" ? 8 : undefined} autoComplete={mode === "login" ? "current-password" : "new-password"} />
             </Field>
