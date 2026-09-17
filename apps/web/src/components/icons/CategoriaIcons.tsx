@@ -80,7 +80,7 @@ export function FertilizacionIcon(props: IconProps) {
 
 export function LaboreoIcon(props: IconProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.4} {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="2 8 21 12" {...base} strokeWidth={1.4} {...props}>
       <circle cx="13" cy="16" r="2.6" />
       <circle cx="19.2" cy="17.05" r="1.55" />
       <path d="M10.5 13.6h6.2" />
