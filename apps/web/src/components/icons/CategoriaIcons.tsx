@@ -60,15 +60,15 @@ export function FertilizacionIcon(props: IconProps) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} {...props}>
       <path d="M5 5.5h14v2H5Z" />
-      <path d="M6.8 7.5h10.4l-2.8 4.3H9.6Z" />
-      <path d="M10.4 11.8v2.1" />
-      <path d="M13.6 11.8v2.1" />
+      <path d="M6.8 7.5h10.4l-1.8 4.3H8.6Z" />
+      <path d="M9.4 11.8v2.1" />
+      <path d="M14.6 11.8v2.1" />
       <path d="M7 14h10" />
       <rect x="4" y="13.6" width="2" height="5.2" rx="0.9" />
       <rect x="18" y="13.6" width="2" height="5.2" rx="0.9" />
-      <circle cx="9" cy="18.2" r="0.6" fill="currentColor" stroke="none" />
-      <circle cx="12" cy="16.8" r="0.6" fill="currentColor" stroke="none" />
-      <circle cx="15" cy="18.2" r="0.6" fill="currentColor" stroke="none" />
+      <circle cx="8.8" cy="18.2" r="0.45" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="16.8" r="0.45" fill="currentColor" stroke="none" />
+      <circle cx="15.2" cy="18.2" r="0.45" fill="currentColor" stroke="none" />
     </svg>
   );
 }
