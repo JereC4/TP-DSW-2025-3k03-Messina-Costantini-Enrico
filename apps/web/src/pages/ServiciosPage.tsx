@@ -6,6 +6,7 @@ import { categorias as categoriasApi, provincias as provinciasApi, servicios as 
 import type { Servicio } from "../api/types";
 import { AnimatedPage } from "../components/layout/AppShell";
 import { Alert, EmptyState, Field, Input, PageHeader, Pagination, Select, SkeletonCard, Stars } from "../components/ui";
+import { categoriaFoto } from "../lib/categoriaFoto";
 import { fmtMoney, fullName, pluralize, ubicacion } from "../lib/format";
 import { useDebounce } from "../lib/useDebounce";
 import { useQuery } from "../lib/useQuery";
@@ -13,18 +14,23 @@ import { useQuery } from "../lib/useQuery";
 export function ServicioCard({ s, index = 0 }: { s: Servicio; index?: number }) {
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(index, 8) * 0.04 }}>
-      <Link to={`/servicios/${s.id_servicio}`} className="surface surface-hover flex h-full flex-col p-5">
-        <div className="flex items-start justify-between gap-3">
-          <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-semibold text-brand-800 dark:bg-brand-900/40 dark:text-brand-100">{s.categoria?.nombre ?? "Sin categoría"}</span>
-          {typeof s.trabajos_completados === "number" && s.trabajos_completados > 0 && <span className="text-xs text-stone-500">{pluralize(s.trabajos_completados, "trabajo", "trabajos")}</span>}
+      <Link
+        to={`/servicios/${s.id_servicio}`}
+        className="surface-hover relative flex h-full min-h-[220px] flex-col overflow-hidden rounded-2xl p-5 bg-cover bg-center shadow-card"
+        style={{ backgroundImage: `url(${categoriaFoto(s.categoria?.nombre)})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
+        <div className="relative flex items-start justify-between gap-3">
+          <span className="rounded-full bg-brand-900/50 px-2.5 py-0.5 text-xs font-semibold text-brand-50 backdrop-blur-sm">{s.categoria?.nombre ?? "Sin categoría"}</span>
+          {typeof s.trabajos_completados === "number" && s.trabajos_completados > 0 && <span className="text-xs text-stone-200">{pluralize(s.trabajos_completados, "trabajo", "trabajos")}</span>}
         </div>
-        <h3 className="mt-3 text-lg font-bold leading-snug text-stone-900 dark:text-white">{s.nombre}</h3>
-        {s.descripcion && <p className="mt-1 line-clamp-2 text-sm text-stone-600 dark:text-stone-400">{s.descripcion}</p>}
-        <div className="mt-auto pt-4">
-          <p className="text-sm text-stone-600 dark:text-stone-300">{fullName(s.contratista_profile?.users)}</p>
-          <p className="text-xs text-stone-500">{ubicacion(s.contratista_profile?.users.localidad)}</p>
-          <p className="mt-2 text-xl font-extrabold text-brand-700 dark:text-brand-300">
-            {s.precio_vigente ? <>{fmtMoney(s.precio_vigente.valor)} <span className="text-sm font-medium text-stone-500">/ ha</span></> : <span className="text-sm font-medium text-harvest-700">Sin precio publicado</span>}
+        <h3 className="relative mt-3 text-lg font-bold leading-snug text-white">{s.nombre}</h3>
+        {s.descripcion && <p className="relative mt-1 line-clamp-2 text-sm text-stone-200">{s.descripcion}</p>}
+        <div className="relative mt-auto pt-4">
+          <p className="text-sm text-stone-100">{fullName(s.contratista_profile?.users)}</p>
+          <p className="text-xs text-stone-300">{ubicacion(s.contratista_profile?.users.localidad)}</p>
+          <p className="mt-2 text-xl font-extrabold text-brand-300">
+            {s.precio_vigente ? <>{fmtMoney(s.precio_vigente.valor)} <span className="text-sm font-medium text-stone-300">/ ha</span></> : <span className="text-sm font-medium text-harvest-300">Sin precio publicado</span>}
           </p>
         </div>
       </Link>
