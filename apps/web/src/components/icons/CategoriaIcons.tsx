@@ -36,22 +36,22 @@ export function CosechaIcon(props: IconProps) {
 export function PulverizacionIcon(props: IconProps) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...base} strokeWidth={1.3} {...props}>
-      <path d="M2 6.5h20" />
-      <path d="M6 6.5v2.2" />
-      <path d="M12 6.5v2.2" />
-      <path d="M18 6.5v2.2" />
-      <path d="M5.4 8.8h1.2l-0.6 1Z" />
-      <path d="M11.4 8.8h1.2l-0.6 1Z" />
-      <path d="M17.4 8.8h1.2l-0.6 1Z" />
-      <path d="M6 10.5v1.4" />
-      <path d="M5.2 10.8 4.7 11.4" />
-      <path d="M6.8 10.8 7.3 11.4" />
-      <path d="M12 10.5v1.4" />
-      <path d="M11.2 10.8 10.7 11.4" />
-      <path d="M12.8 10.8 13.3 11.4" />
-      <path d="M18 10.5v1.4" />
-      <path d="M17.2 10.8 16.7 11.4" />
-      <path d="M18.8 10.8 19.3 11.4" />
+      <path d="M2 6.2h20" />
+      <path d="M6 6.2v0.8" />
+      <path d="M12 6.2v0.8" />
+      <path d="M18 6.2v0.8" />
+      <path d="M4.2 7h3.6v1.6l-1.8 1.4-1.8-1.4Z" />
+      <path d="M10.2 7h3.6v1.6l-1.8 1.4-1.8-1.4Z" />
+      <path d="M16.2 7h3.6v1.6l-1.8 1.4-1.8-1.4Z" />
+      <path d="M6 10v4" />
+      <path d="M6 10 3.5 13.5" />
+      <path d="M6 10 8.5 13.5" />
+      <path d="M12 10v4" />
+      <path d="M12 10 9.5 13.5" />
+      <path d="M12 10 14.5 13.5" />
+      <path d="M18 10v4" />
+      <path d="M18 10 15.5 13.5" />
+      <path d="M18 10 20.5 13.5" />
     </svg>
   );
 }
