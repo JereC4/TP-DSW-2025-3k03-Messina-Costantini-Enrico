@@ -2,9 +2,8 @@
 
 Cómo se organizó el trabajo, quién hizo qué y en qué estado quedó cada cosa.
 
-Este documento es **autosuficiente**: la tabla de abajo es el seguimiento real y se puede verificar
-contra el repositorio sin depender de ninguna herramienta externa. El tablero de GitHub Projects, que
-se describe al final, es una vista más cómoda de lo mismo.
+La tabla de abajo es el seguimiento real del trabajo y se puede verificar contra el repositorio: cada
+fila indica la rama y el pull request en los que quedó hecha la tarea.
 
 ## Metodología, tal como fue
 
@@ -88,40 +87,4 @@ Leyenda: ✅ hecho · ⏳ pendiente
 
 El detalle de cada pull request está en [pull-requests.md](pull-requests.md), y el recorrido cronológico en [minutas/](minutas/).
 
-## Tablero en GitHub Projects
-
-El tablero replica esta misma tabla en cuatro columnas. Para armarlo:
-
-1. En el repositorio, pestaña **Projects** → **New project** → plantilla **Board**.
-2. Nombrarlo `AgroApp — TP DSW 2025` y crear las columnas **Backlog**, **En curso**, **En revisión** y
-   **Hecho**.
-3. Cargar una tarjeta por fila de la tabla de arriba, con el número y el título tal como figuran.
-4. En las tarjetas ya terminadas, enlazar el pull request correspondiente con **Link an issue or pull
-   request**. GitHub las mueve solas a **Hecho** cuando el pull request se mergea.
-5. Pegar acá el enlace del tablero:
-
-> **Tablero**: _(completar con la URL del proyecto)_
-
-### Tarjetas para copiar
-
-**Hecho** (36 tarjetas): de la 1 a la 36 de la tabla, todas con su pull request enlazado cuando lo
-tienen.
-
-**Backlog** (2 tarjetas):
-
-```
-37 — Grabar el video de demostración
-     Seguir el guion de docs/video-guion.md y pegar el enlace en docs/video.md.
-
-38 — Enviar el formulario de la cátedra
-     Repositorio, docs/README.md, video, enlaces de despliegue, credenciales de prueba y contacto.
-```
-
-**Backlog, después de la defensa** (lo de [pendientes.md](pendientes.md)):
-
-```
-39 — Cambiar la contraseña del administrador de producción
-40 — Cargar coordenadas al resto de las localidades
-41 — Decidir si el perfil público de contratistas requiere sesión
-42 — Mover el cálculo de distancia a la base si el volumen lo justifica
-```
+Lo que queda para después de la defensa está en [pendientes.md](pendientes.md).
