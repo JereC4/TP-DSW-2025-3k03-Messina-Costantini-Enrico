@@ -5,7 +5,6 @@ Estado al 2026-09-22. Lo que falta para cerrar la entrega, en orden.
 ## Para la defensa (obligatorio)
 
 - [x] **Registro de coordinación** en [`minutas/`](minutas/), una entrada por hito reconstruida del historial del repositorio, y **[`tracking.md`](tracking.md)** con la metodología y el estado de cada tarea.
-- [ ] Crear el tablero en GitHub Projects siguiendo los pasos de [`tracking.md`](tracking.md) y pegar ahí el enlace. Las tarjetas están listas para copiar.
 - [ ] **Video** siguiendo [video-guion.md](video-guion.md); link en [video.md](video.md).
 - [x] Números de PR completos en [pull-requests.md](pull-requests.md) y [tracking.md](tracking.md), incluidos los aportes de Jeremías (#23 y #24).
 - [ ] Enviar el formulario de la cátedra con: repo, `docs/README.md`, video, links de deploy, credenciales y contacto.
