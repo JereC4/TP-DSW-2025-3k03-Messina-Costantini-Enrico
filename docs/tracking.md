@@ -65,26 +65,28 @@ Leyenda: ✅ hecho · ⏳ pendiente
 | 21 | Interfaz nueva completa, con tema claro y oscuro | `feat/ui-v2` | #12 | Tiziano | ✅ |
 | 22 | Arreglo del desborde en teléfonos | `fix/responsive-movil` | #16 | Tiziano | ✅ |
 | 23 | Mejoras del panel: verificado, ficha del campo, precio de mercado y gráfico | `feat/mejoras-demo` | #20 | Tiziano | ✅ |
+| 24 | Confirmación del email en el registro | `claude/laughing-johnson-r080oy` | #23 | Jeremías | ✅ |
+| 25 | Íconos propios por categoría en los servicios destacados | `claude/laughing-johnson-r080oy` | #23 | Jeremías | ✅ |
+| 26 | Foto de fondo por categoría en las tarjetas del catálogo | `claude/laughing-johnson-r080oy` | #24 | Jeremías | ✅ |
 
 ### Calidad, documentación y despliegue
 
 | # | Tarea | Rama | PR | Responsable | Estado |
 |:-|:-|:-|:-|:-|:-|
-| 24 | Primeros tests automatizados | `main` | — | Tiziano | ✅ |
-| 25 | Documentación de la API con Swagger | `feat/api-docs` | #6 | Tiziano | ✅ |
-| 26 | Prueba de extremo a extremo | `test/e2e` | #7 | Tiziano | ✅ |
-| 27 | Documentación de entrega e integración continua | `docs/entrega` | #8 | Tiziano | ✅ |
-| 28 | Despliegue del backend, el frontend y la base | `chore/deploy`, `fix/render-build` | #9 | Tiziano | ✅ |
-| 29 | Endurecimiento de seguridad | `fix/hardening` | #10 | Tiziano | ✅ |
-| 30 | Auditoría de coherencia del negocio: 53 hallazgos | `chore/lint-auditoria` | #15 | Tiziano | ✅ |
-| 31 | Análisis estático del backend y modo estricto completo | `chore/lint-auditoria` | #15 | Tiziano | ✅ |
-| 32 | Todo el sistema con un comando, con Docker Compose | `chore/docker-compose` | #18 | Tiziano | ✅ |
-| 33 | Minutas y seguimiento del proyecto | `docs/gestion` | #22 | Tiziano | ✅ |
-| 34 | Video de demostración | — | — | Ambos | ⏳ |
-| 35 | Envío del formulario de la cátedra | — | — | Tiziano | ⏳ |
+| 27 | Primeros tests automatizados | `main` | — | Tiziano | ✅ |
+| 28 | Documentación de la API con Swagger | `feat/api-docs` | #6 | Tiziano | ✅ |
+| 29 | Prueba de extremo a extremo | `test/e2e` | #7 | Tiziano | ✅ |
+| 30 | Documentación de entrega e integración continua | `docs/entrega` | #8 | Tiziano | ✅ |
+| 31 | Despliegue del backend, el frontend y la base | `chore/deploy`, `fix/render-build` | #9 | Tiziano | ✅ |
+| 32 | Endurecimiento de seguridad | `fix/hardening` | #10 | Tiziano | ✅ |
+| 33 | Auditoría de coherencia del negocio: 53 hallazgos | `chore/lint-auditoria` | #15 | Tiziano | ✅ |
+| 34 | Análisis estático del backend y modo estricto completo | `chore/lint-auditoria` | #15 | Tiziano | ✅ |
+| 35 | Todo el sistema con un comando, con Docker Compose | `chore/docker-compose` | #18 | Tiziano | ✅ |
+| 36 | Minutas y seguimiento del proyecto | `docs/gestion` | #22 | Tiziano | ✅ |
+| 37 | Video de demostración | — | — | Ambos | ⏳ |
+| 38 | Envío del formulario de la cátedra | — | — | Tiziano | ⏳ |
 
-Los números de pull request del #21 en adelante se completan al abrirlos. El detalle de cada uno está
-en [pull-requests.md](pull-requests.md), y el recorrido cronológico en [minutas/](minutas/).
+El detalle de cada pull request está en [pull-requests.md](pull-requests.md), y el recorrido cronológico en [minutas/](minutas/).
 
 ## Tablero en GitHub Projects
 
@@ -102,24 +104,24 @@ El tablero replica esta misma tabla en cuatro columnas. Para armarlo:
 
 ### Tarjetas para copiar
 
-**Hecho** (33 tarjetas): de la 1 a la 33 de la tabla, todas con su pull request enlazado cuando lo
+**Hecho** (36 tarjetas): de la 1 a la 36 de la tabla, todas con su pull request enlazado cuando lo
 tienen.
 
 **Backlog** (2 tarjetas):
 
 ```
-34 — Grabar el video de demostración
+37 — Grabar el video de demostración
      Seguir el guion de docs/video-guion.md y pegar el enlace en docs/video.md.
 
-35 — Enviar el formulario de la cátedra
+38 — Enviar el formulario de la cátedra
      Repositorio, docs/README.md, video, enlaces de despliegue, credenciales de prueba y contacto.
 ```
 
 **Backlog, después de la defensa** (lo de [pendientes.md](pendientes.md)):
 
 ```
-36 — Cambiar la contraseña del administrador de producción
-37 — Cargar coordenadas al resto de las localidades
-38 — Decidir si el perfil público de contratistas requiere sesión
-39 — Mover el cálculo de distancia a la base si el volumen lo justifica
+39 — Cambiar la contraseña del administrador de producción
+40 — Cargar coordenadas al resto de las localidades
+41 — Decidir si el perfil público de contratistas requiere sesión
+42 — Mover el cálculo de distancia a la base si el volumen lo justifica
 ```

@@ -17,14 +17,16 @@ Repositorio (monorepo fullstack): https://github.com/JereC4/TP-DSW-2025-3k03-Mes
 | [#11](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/11) | `refactor/dominio` | Modelo productor/contratista, migración única con CHECKs, reglas de negocio coherentes, valoraciones, paginación, 54 tests | Tiziano |
 | [#12](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/12) | `feat/ui-v2` | UI nueva: design system, dashboard por rol, wizard de solicitud, mapas, admin, e2e | Tiziano |
 | [#13](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/13) | `docs/coherencia` | Modelo en Mermaid, glosario, limitaciones, proposal, evidencia, guion | Tiziano |
-| pendiente | `fix/responsive-movil` | Grillas que desbordaban la pantalla en teléfonos | Tiziano |
-| pendiente | `fix/ci-pnpm` | Versión de pnpm duplicada en la integración continua | Tiziano |
-| pendiente | `chore/lint-auditoria` | Lint del backend, modo estricto completo y documento de auditoría | Tiziano |
-| pendiente | `chore/docker-compose` | Todo el stack con un comando: base, migraciones, datos de demo, API y frontend | Tiziano |
-| pendiente | `feat/historial-eventos` | Registro de transiciones de la solicitud y línea de tiempo real | Tiziano |
-| pendiente | `feat/notificaciones` | Avisos dentro de la aplicación, con campana y contador | Tiziano |
-| pendiente | `feat/mejoras-demo` | Insignia de verificado, ficha histórica del campo, precio de mercado y gráfico del panel | Tiziano |
-| pendiente | `feat/cercania-distancia` | Cercanía por distancia real entre el campo y el contratista | Tiziano |
-| pendiente | `docs/gestion` | Registro de coordinación por hito y seguimiento de las 35 tareas | Tiziano |
+| [#14](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/14) | `fix/ci-pnpm` | Versión de pnpm duplicada en la integración continua | Tiziano |
+| [#15](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/15) | `chore/lint-auditoria` | Lint del backend, modo estricto completo y documento de auditoría | Tiziano |
+| [#16](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/16) | `fix/responsive-movil` | Grillas que desbordaban la pantalla en teléfonos | Tiziano |
+| [#17](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/17) | `feat/historial-eventos` | Registro de transiciones de la solicitud y línea de tiempo real | Tiziano |
+| [#18](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/18) | `chore/docker-compose` | Todo el stack con un comando: base, migraciones, datos de demo, API y frontend | Tiziano |
+| [#19](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/19) | `feat/notificaciones` | Avisos dentro de la aplicación, con campana y contador | Tiziano |
+| [#20](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/20) | `feat/mejoras-demo` | Insignia de verificado, ficha histórica del campo, precio de mercado y gráfico del panel | Tiziano |
+| [#21](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/21) | `feat/cercania-distancia` | Cercanía por distancia real entre el campo y el contratista | Tiziano |
+| [#22](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/22) | `docs/gestion` | Registro de coordinación por hito y seguimiento de las tareas | Tiziano |
+| [#23](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/23) | `claude/laughing-johnson-r080oy` | Confirmación del email en el registro e íconos propios por categoría en los servicios destacados de la portada | Jeremías |
+| [#24](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico/pull/24) | `claude/laughing-johnson-r080oy` | Foto de fondo por categoría en las tarjetas del catálogo de servicios | Jeremías |
 
-Los números de los PR marcados como pendientes se completan al abrirlos. El orden de merge de los últimos es: `fix/responsive-movil`, `fix/ci-pnpm`, `chore/lint-auditoria`, `chore/docker-compose`, `feat/historial-eventos`, `feat/notificaciones` y `feat/mejoras-demo`, que van apilados en ese orden. El desarrollo previo (octubre y noviembre de 2025) se hizo con commits directos a `main` de ambos integrantes; ver `git log`.
+Todos se mergearon en orden de número. Del #14 al #20 las ramas iban apiladas, por eso ese orden era obligatorio. #23 y #24 salen de la misma rama, que Jeremías reusó para la segunda tanda de cambios de interfaz. El desarrollo anterior (octubre y noviembre de 2025) se hizo con commits directos a `main` de ambos integrantes; ver `git log`.

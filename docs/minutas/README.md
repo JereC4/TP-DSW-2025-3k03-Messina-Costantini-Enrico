@@ -33,6 +33,7 @@ git log --merges --format='%s'
 | 2026-09-10 | Reescritura para la instancia de aprobación | [2026-09-10.md](2026-09-10.md) |
 | 2026-09-11 | Auditoría, reproducibilidad y mejoras de producto | [2026-09-11.md](2026-09-11.md) |
 | 2026-09-12 | Cercanía por distancia y cierre de la gestión | [2026-09-12.md](2026-09-12.md) |
+| 2026-09-17 | Ajustes de interfaz en el registro y el catálogo | [2026-09-17.md](2026-09-17.md) |
 
 El seguimiento de tareas está en [../tracking.md](../tracking.md).
 
