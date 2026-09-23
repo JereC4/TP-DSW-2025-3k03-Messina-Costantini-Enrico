@@ -34,6 +34,12 @@ export function normalizeError(err: any): ApiError {
     return { status: 400, code: "BAD_JSON", message: "El cuerpo de la petición no es JSON válido" };
   }
 
+  // Error de multer al subir un archivo (ej. tamaño excedido)
+  if (err?.name === "MulterError") {
+    const message = err.code === "LIMIT_FILE_SIZE" ? "El archivo supera el tamaño máximo permitido" : "No se pudo procesar el archivo subido";
+    return { status: 400, code: err.code ?? "UPLOAD_ERROR", message };
+  }
+
   const status = typeof err?.status === "number" ? err.status : 500;
   if (status === 500) {
     // No filtrar mensajes internos (Prisma, stack, etc.) fuera de desarrollo

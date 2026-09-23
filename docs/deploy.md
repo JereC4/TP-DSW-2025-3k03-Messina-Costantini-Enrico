@@ -77,10 +77,25 @@ Variables de entorno:
 | `JWT_SECRET` | cadena aleatoria larga (Render → *Generate*) |
 | `JWT_EXPIRES_IN` | `8h` |
 | `CORS_ORIGIN` | `https://agroapp.dev,https://www.agroapp.dev` |
+| `SUPABASE_URL` | Project URL de Supabase (ver § Supabase Storage abajo) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key de Supabase (nunca la `anon`/pública) |
+| `SUPABASE_AVATARS_BUCKET` | `avatars` (opcional; es el valor por defecto) |
 
 `PORT` la define Render. Dominio: **Settings → Custom domains → Add** `api.agroapp.dev`.
 
 > Plan free: el servicio se duerme tras 15 minutos sin tráfico y la primera request tarda ~30 s. Abrir `/health` antes de la defensa.
+
+> Las tres variables de Supabase son solo para la foto de perfil (`POST/DELETE /auth/me/foto`): sin ellas, ese endpoint responde 500 pero el resto de la app funciona igual.
+
+### Supabase Storage (fotos de perfil)
+
+La foto de perfil de productores y contratistas se guarda en un bucket de [Supabase Storage](https://supabase.com); la base de datos solo guarda la URL pública (`users.foto_url`). Pasos, una única vez:
+
+1. Crear una cuenta en [supabase.com](https://supabase.com) y un proyecto nuevo (plan free).
+2. **Storage → New bucket**: nombre `avatars`, marcado como **Public bucket**. Así `getPublicUrl()` devuelve una URL servible directo, sin firmar cada request.
+3. **Settings → API**: copiar la **Project URL** (`SUPABASE_URL`) y la **service_role key** (`SUPABASE_SERVICE_ROLE_KEY`, en "Project API keys" — no la `anon`/`public`, esa es la que se puede exponer al cliente y esta no).
+4. Cargar esas dos variables (más `SUPABASE_AVATARS_BUCKET=avatars`, opcional) en Render como se detalla arriba, y redesplegar el servicio.
+5. No hace falta nada en Vercel: el frontend nunca habla con Supabase directamente, solo con el backend.
 
 ## 3. Frontend (Vercel)
 

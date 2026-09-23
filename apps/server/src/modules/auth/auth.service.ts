@@ -1,11 +1,16 @@
 import bcrypt from "bcrypt";
+import sharp from "sharp";
 import { prisma } from "@repo/db";
 import { signToken } from "../../core/auth/jwt.js";
 import type { AuthUser } from "../../core/auth/types.js";
 import { badRequest } from "../../core/errors/errors.js";
+import { deleteAvatarByUrl, uploadAvatar } from "../../core/storage/supabaseStorage.js";
 import { usuarioRepo } from "../usuario/usuario.repository.js";
 import { toPublicUser, usuarioService, type PublicUser } from "../usuario/usuario.service.js";
 import type { ChangePasswordDto, LoginDto, RegisterDto, UpdateMeDto } from "./auth.schema.js";
+
+/** Tamaño del avatar cuadrado que se guarda en Storage. */
+const AVATAR_SIZE = 256;
 
 export type AuthResponse = { token: string; user: PublicUser };
 
@@ -57,6 +62,30 @@ export const authService = {
   me: (user: AuthUser) => usuarioService.get(user.id_user),
 
   updateMe: (user: AuthUser, dto: UpdateMeDto) => usuarioService.update(user.id_user, dto),
+
+  /** Redimensiona a un cuadrado y convierte a WebP antes de subir, para que el avatar pese poco. */
+  async updateFoto(user: AuthUser, file: { buffer: Buffer; mimetype: string }): Promise<PublicUser> {
+    const webp = await sharp(file.buffer)
+      .resize(AVATAR_SIZE, AVATAR_SIZE, { fit: "cover" })
+      .webp({ quality: 82 })
+      .toBuffer()
+      .catch(() => {
+        throw badRequest("FOTO_INVALIDA", "No se pudo procesar la imagen; probá con otro archivo");
+      });
+
+    const previo = await usuarioRepo.getById(user.id_user);
+    const foto_url = await uploadAvatar(user.id_user, webp, "image/webp", "webp");
+    const row = await usuarioRepo.setFoto(user.id_user, foto_url);
+    if (previo?.foto_url) void deleteAvatarByUrl(previo.foto_url);
+    return toPublicUser(row);
+  },
+
+  async removeFoto(user: AuthUser): Promise<PublicUser> {
+    const previo = await usuarioRepo.getById(user.id_user);
+    const row = await usuarioRepo.setFoto(user.id_user, null);
+    if (previo?.foto_url) void deleteAvatarByUrl(previo.foto_url);
+    return toPublicUser(row);
+  },
 
   async changePassword(user: AuthUser, dto: ChangePasswordDto) {
     const row = await usuarioRepo.getById(user.id_user);

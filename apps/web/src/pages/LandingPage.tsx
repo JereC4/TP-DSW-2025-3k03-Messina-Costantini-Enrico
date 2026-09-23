@@ -133,7 +133,7 @@ export default function LandingPage() {
           {(top.data?.items ?? []).map((c) => (
             <Link key={c.id_user} to={`/contratistas/${c.id_user}`} className="surface surface-hover flex flex-col p-5">
               <div className="flex items-center gap-3">
-                <Avatar name={fullName(c.users)} />
+                <Avatar name={fullName(c.users)} src={c.users.foto_url} />
                 <div className="min-w-0">
                   <p className="truncate font-bold">{fullName(c.users)}</p>
                   <p className="truncate text-xs text-stone-500">{ubicacion(c.users.localidad)}</p>

@@ -59,6 +59,7 @@ const PublicUserSchema = registry.register(
     fecha_nac: z.string().nullable(),
     domicilio: z.string().nullable(),
     id_localidad: z.number().nullable(),
+    foto_url: z.string().nullable().describe("URL pública en Supabase Storage; null = sin foto"),
     roles: z.array(z.enum(["ADMIN", "PRODUCTOR", "CONTRATISTA"])),
     productor: z.object({ razon_social: z.string().nullable() }).nullable(),
     contratista: z.object({ descripcion: z.string().nullable(), anios_experiencia: z.number().nullable() }).nullable(),
@@ -72,6 +73,7 @@ const AuthResponseSchema = registry.register("AuthResponse", z.object({ token: z
 type Role = "ADMIN" | "PRODUCTOR" | "CONTRATISTA";
 
 const json = (schema: z.ZodTypeAny, description: string) => ({ description, content: { "application/json": { schema } } });
+const multipart = (fieldName: string, description: string) => ({ description, content: { "multipart/form-data": { schema: z.object({ [fieldName]: z.string().openapi({ format: "binary" }) }) } } });
 const errors = (...codes: number[]) =>
   Object.fromEntries(
     codes.map((c) => [
@@ -112,6 +114,8 @@ route({ tags: ["Auth"], method: "post", path: "/auth/register", summary: "Regist
 route({ tags: ["Auth"], method: "get", path: "/auth/me", summary: "Usuario autenticado", roles: all, responses: { 200: json(PublicUserSchema, "Perfil") } });
 route({ tags: ["Auth"], method: "put", path: "/auth/me", summary: "Editar el propio perfil (datos personales y del subtipo; sin roles ni email)", roles: all, request: { body: json(UpdateMeSchema, "Datos") }, responses: { 200: json(PublicUserSchema, "Perfil actualizado"), ...errors(400, 409) } });
 route({ tags: ["Auth"], method: "put", path: "/auth/me/password", summary: "Cambiar contraseña (requiere la actual)", roles: all, request: { body: json(ChangePasswordSchema, "Contraseñas") }, responses: { 200: json(z.object({ ok: z.boolean() }), "OK"), ...errors(400) } });
+route({ tags: ["Auth"], method: "post", path: "/auth/me/foto", summary: "Subir o reemplazar la foto de perfil", description: "Multipart con el campo `foto` (JPG, PNG o WebP, máx. 5 MB). Se redimensiona a 256x256 y se convierte a WebP antes de guardarla en Supabase Storage; reemplaza y borra la anterior si había.", roles: all, request: { body: multipart("foto", "Archivo de imagen") }, responses: { 200: json(PublicUserSchema, "Perfil actualizado"), ...errors(400) } });
+route({ tags: ["Auth"], method: "delete", path: "/auth/me/foto", summary: "Quitar la foto de perfil", description: "Vuelve al avatar por iniciales.", roles: all, responses: { 200: json(PublicUserSchema, "Perfil actualizado") } });
 route({ tags: ["Auth"], method: "get", path: "/auth/me/resumen", summary: "Resumen para el dashboard (solicitudes por estado, próximos trabajos, contadores)", roles: all, responses: { 200: json(anyObj, "Resumen") } });
 
 crud({ tag: "Usuarios", base: "/usuarios", entity: "usuario", create: UsuarioCreateSchema, update: UsuarioUpdateSchema, query: UsuarioQuerySchema, readRoles: ["ADMIN"], writeRoles: ["ADMIN"], paged: true });

@@ -121,6 +121,11 @@
             "type": "number",
             "nullable": true
           },
+          "foto_url": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL pública en Supabase Storage; null = sin foto"
+          },
           "roles": {
             "type": "array",
             "items": {
@@ -174,6 +179,7 @@
           "fecha_nac",
           "domicilio",
           "id_localidad",
+          "foto_url",
           "roles",
           "productor",
           "contratista"
@@ -770,6 +776,125 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sin token o token inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Sin permisos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/me/foto": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Subir o reemplazar la foto de perfil",
+        "description": "Multipart con el campo `foto` (JPG, PNG o WebP, máx. 5 MB). Se redimensiona a 256x256 y se convierte a WebP antes de guardarla en Supabase Storage; reemplaza y borra la anterior si había.\n\nRequiere rol: ADMIN o PRODUCTOR o CONTRATISTA.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Archivo de imagen",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "foto": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "foto"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Perfil actualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sin token o token inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Sin permisos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Quitar la foto de perfil",
+        "description": "Vuelve al avatar por iniciales.\n\nRequiere rol: ADMIN o PRODUCTOR o CONTRATISTA.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Perfil actualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Usuario"
                 }
               }
             }

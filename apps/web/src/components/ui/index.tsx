@@ -306,9 +306,10 @@ export function Pagination({ page, totalPages, onChange, total }: { page: number
   );
 }
 
-export function Avatar({ name, className, size = "md" }: { name: string; className?: string; size?: "sm" | "md" | "lg" }) {
-  const initials = name.split(" ").filter(Boolean).slice(0, 2).map((p) => p[0]?.toUpperCase()).join("");
+export function Avatar({ name, src, className, size = "md" }: { name: string; src?: string | null; className?: string; size?: "sm" | "md" | "lg" }) {
   const sz = size === "lg" ? "h-14 w-14 text-lg" : size === "sm" ? "h-8 w-8 text-xs" : "h-10 w-10 text-sm";
+  if (src) return <img src={src} alt={name} className={cn("shrink-0 rounded-full object-cover", sz, className)} />;
+  const initials = name.split(" ").filter(Boolean).slice(0, 2).map((p) => p[0]?.toUpperCase()).join("");
   return <span className={cn("inline-flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-brand-700 font-bold text-white", sz, className)}>{initials || "?"}</span>;
 }
 

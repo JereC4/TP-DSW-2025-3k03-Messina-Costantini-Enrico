@@ -10,6 +10,7 @@ export const publicUserSelect = {
   apellido: true,
   id_localidad: true,
   localidad: { include: { provincia: true } },
+  foto_url: true,
 } as const;
 
 export const contactUserSelect = {

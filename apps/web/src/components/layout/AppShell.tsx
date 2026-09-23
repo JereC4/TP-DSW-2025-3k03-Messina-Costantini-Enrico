@@ -69,7 +69,7 @@ function UserMenu() {
   return (
     <Menu as="div" className="relative">
       <MenuButton aria-label="Abrir menú de usuario" className="flex items-center gap-2 rounded-xl px-2 py-1.5 text-left transition hover:bg-stone-200/70 dark:hover:bg-stone-800">
-        <Avatar name={fullName(user)} size="sm" />
+        <Avatar name={fullName(user)} src={user.foto_url} size="sm" />
         <span className="hidden text-sm font-medium sm:block">{user.nombre}</span>
         <ChevronDown className="hidden h-4 w-4 text-stone-500 sm:block" />
       </MenuButton>

@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
+import { badRequest } from "../../core/errors/errors.js";
 import { ChangePasswordSchema, LoginSchema, RegisterSchema, UpdateMeSchema } from "./auth.schema.js";
 import { authService } from "./auth.service.js";
 
@@ -23,6 +24,19 @@ export const me = async (req: Request, res: Response, next: NextFunction) => {
 export const updateMe = async (req: Request, res: Response, next: NextFunction) => {
   try {
     res.json(await authService.updateMe(req.user!, UpdateMeSchema.parse(req.body)));
+  } catch (e) { next(e); }
+};
+
+export const uploadFoto = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (!req.file) throw badRequest("FOTO_REQUERIDA", "Falta el archivo de la foto (campo 'foto')");
+    res.json(await authService.updateFoto(req.user!, req.file));
+  } catch (e) { next(e); }
+};
+
+export const deleteFoto = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.json(await authService.removeFoto(req.user!));
   } catch (e) { next(e); }
 };
 

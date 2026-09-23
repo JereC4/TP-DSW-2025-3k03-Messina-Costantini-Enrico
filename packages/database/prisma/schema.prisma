@@ -54,6 +54,8 @@ model users {
   fecha_nac           DateTime?            @db.Date
   domicilio           String?              @db.VarChar(255)
   id_localidad        BigInt?              @db.UnsignedBigInt
+  /// URL pública de la foto de perfil en Supabase Storage (null = sin foto, avatar por iniciales).
+  foto_url            String?              @db.VarChar(500)
   created_at          DateTime             @default(now()) @db.Timestamp(0)
   updated_at          DateTime             @default(now()) @updatedAt @db.Timestamp(0)
   localidad           localidad?           @relation(fields: [id_localidad], references: [id_localidad], onDelete: SetNull, map: "fk_user_localidad")
