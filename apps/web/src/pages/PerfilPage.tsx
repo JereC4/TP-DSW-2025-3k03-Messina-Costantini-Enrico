@@ -142,7 +142,7 @@ export default function PerfilPage() {
           <Card>
             <div className="flex items-center gap-3">
               <div className="relative shrink-0">
-                <Avatar name={fullName(user)} src={user.foto_url} size="lg" />
+                <Avatar name={fullName(user)} src={user.foto_url} size="lg" zoomable />
                 <button
                   type="button"
                   onClick={() => fotoInputRef.current?.click()}

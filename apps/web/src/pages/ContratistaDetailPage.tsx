@@ -49,7 +49,7 @@ export default function ContratistaDetailPage() {
       <div className="surface relative overflow-hidden p-6 sm:p-8">
         <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-r from-brand-600 to-brand-400" />
         <div className="relative mt-8 flex flex-col gap-4 sm:flex-row sm:items-end">
-          <Avatar name={fullName(c.users)} src={c.users.foto_url} size="lg" className="ring-4 ring-white dark:ring-stone-900" />
+          <Avatar name={fullName(c.users)} src={c.users.foto_url} size="lg" zoomable className="ring-4 ring-white dark:ring-stone-900" />
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-3xl font-extrabold text-stone-900 dark:text-white">{fullName(c.users)}</h1>
