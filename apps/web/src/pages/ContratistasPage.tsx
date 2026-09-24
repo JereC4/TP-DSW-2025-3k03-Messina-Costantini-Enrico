@@ -121,7 +121,7 @@ export default function ContratistasPage() {
               <motion.div key={c.id_user} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i, 8) * 0.04 }}>
                 <Link to={`/contratistas/${c.id_user}`} className="surface surface-hover flex h-full flex-col p-5">
                   <div className="flex items-center gap-3">
-                    <Avatar name={fullName(c.users)} size="lg" />
+                    <Avatar name={fullName(c.users)} src={c.users.foto_url} size="lg" />
                     <div className="min-w-0">
                       <p className="flex items-center gap-1.5 truncate text-lg font-bold">
                         <span className="truncate">{fullName(c.users)}</span>

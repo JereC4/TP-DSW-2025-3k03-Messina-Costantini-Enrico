@@ -19,6 +19,10 @@ export const env = {
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean),
+  // Supabase Storage para la foto de perfil (ver docs/deploy.md § Supabase).
+  SUPABASE_URL: process.env.SUPABASE_URL ?? "",
+  SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY ?? "",
+  SUPABASE_BUCKET: process.env.SUPABASE_BUCKET ?? "avatars",
 };
 
 if (env.NODE_ENV === "production" && env.JWT_SECRET === DEV_SECRET) {

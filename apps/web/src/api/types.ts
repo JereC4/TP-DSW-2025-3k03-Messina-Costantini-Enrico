@@ -44,6 +44,8 @@ export interface UsuarioPublico {
   apellido: string;
   id_localidad?: number | null;
   localidad?: Localidad | null;
+  /** URL pública en Supabase Storage; null/undefined = sin foto (avatar por iniciales). */
+  foto_url?: string | null;
 }
 
 /** Usuario con contacto: solo entre las partes de una solicitud, o uno mismo. */

@@ -114,4 +114,8 @@ export const usuarioRepo = {
     }),
 
   remove: (id: bigint) => prisma.users.delete({ where: { id_user: id } }),
+
+  /** Setter dedicado de la foto de perfil: no pasa por `save()` a propósito, así no se puede
+   * pisar `foto_url` con una URL arbitraria desde el PUT general de perfil/admin. */
+  setFoto: (id: bigint, foto_url: string | null) => prisma.users.update({ where: { id_user: id }, data: { foto_url }, include: userInclude }),
 };

@@ -97,7 +97,7 @@ export default function UsuariosPage() {
               <tbody>
                 {lista.data.items.map((u) => (
                   <tr key={u.id_user} className={cn("transition hover:bg-stone-50 dark:hover:bg-stone-800/50", u.id_user === me?.id_user && "bg-brand-50/40 dark:bg-brand-900/10")}>
-                    <Td><span className="flex items-center gap-3"><Avatar name={fullName(u)} size="sm" /><span><span className="block font-semibold">{fullName(u)}</span><span className="block text-xs text-stone-500">{u.email}</span></span></span></Td>
+                    <Td><span className="flex items-center gap-3"><Avatar name={fullName(u)} src={u.foto_url} size="sm" /><span><span className="block font-semibold">{fullName(u)}</span><span className="block text-xs text-stone-500">{u.email}</span></span></span></Td>
                     <Td><span className="flex flex-wrap gap-1">{u.roles.map((r) => <RoleBadge key={r} role={r} />)}</span></Td>
                     <Td>{ubicacion(u.localidad)}</Td>
                     <Td>{u.telefono || "—"}</Td>

@@ -102,7 +102,7 @@ export default function ServicioDetailPage() {
           <div className="surface p-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-stone-500">Contratista</p>
             <Link to={`/contratistas/${s.id_contratista}`} className="mt-3 flex items-center gap-3 rounded-xl p-2 transition hover:bg-stone-100 dark:hover:bg-stone-800">
-              <Avatar name={fullName(c?.users)} />
+              <Avatar name={fullName(c?.users)} src={c?.users.foto_url} />
               <span className="min-w-0">
                 <span className="flex items-center gap-1.5">
                   <span className="truncate font-bold">{fullName(c?.users)}</span>

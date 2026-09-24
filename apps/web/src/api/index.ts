@@ -26,6 +26,14 @@ export const auth = {
   updateMe: async (data: UpdateMePayload) => (await api.put<Usuario>("/auth/me", data)).data,
   changePassword: async (password_actual: string, password_nueva: string) => (await api.put<{ ok: boolean }>("/auth/me/password", { password_actual, password_nueva })).data,
   resumen: async () => (await api.get<Resumen>("/auth/me/resumen")).data,
+  /** Sube (o reemplaza) la foto de perfil. Formatos: JPG, PNG o WebP, hasta 5 MB. */
+  uploadFoto: async (file: File) => {
+    const form = new FormData();
+    form.append("foto", file);
+    return (await api.post<Usuario>("/auth/me/foto", form)).data;
+  },
+  /** Quita la foto de perfil; vuelve al avatar por iniciales. */
+  deleteFoto: async () => (await api.delete<Usuario>("/auth/me/foto")).data,
 };
 
 /* ---------- Catálogos ---------- */

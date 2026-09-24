@@ -15,7 +15,7 @@ import { useQuery } from "../lib/useQuery";
 function Contacto({ titulo, u, extra }: { titulo: string; u?: UsuarioContacto; extra?: string | null }) {
   return (
     <div className="flex gap-3">
-      <Avatar name={fullName(u)} />
+      <Avatar name={fullName(u)} src={u?.foto_url} />
       <div className="min-w-0">
         <p className="text-xs font-medium uppercase tracking-wide text-stone-500">{titulo}</p>
         <p className="font-bold">{fullName(u)}</p>

@@ -1,5 +1,5 @@
-import { KeyRound, MapPinOff, Save } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { Camera, KeyRound, MapPinOff, Save, X } from "lucide-react";
+import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { auth as authApi, getApiErrorMessage, localidades as localidadesApi } from "../api";
 import { useAuth } from "../auth/AuthContext";
 import { useFeedback } from "../components/feedback";
@@ -8,6 +8,9 @@ import { MapView } from "../components/MapView";
 import { Alert, Avatar, Button, Card, Field, Input, PageHeader, RoleBadge, Select, Textarea } from "../components/ui";
 import { fullName, isoToDateInput } from "../lib/format";
 import { useQuery } from "../lib/useQuery";
+
+const FOTO_MIME_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+const FOTO_MAX_BYTES = 5 * 1024 * 1024;
 
 export default function PerfilPage() {
   const { user, setUser, isContratista, isProductor } = useAuth();
@@ -25,9 +28,40 @@ export default function PerfilPage() {
   const [pw, setPw] = useState({ actual: "", nueva: "", repetir: "" });
   const [pwSaving, setPwSaving] = useState(false);
   const [pwError, setPwError] = useState<string | null>(null);
+  const [fotoSaving, setFotoSaving] = useState(false);
+  const fotoInputRef = useRef<HTMLInputElement>(null);
 
   if (!user) return null;
   const set = (k: keyof typeof form) => (e: { target: { value: string } }) => setForm((p) => ({ ...p, [k]: e.target.value }));
+
+  const onFotoChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // permite volver a elegir el mismo archivo
+    if (!file) return;
+    if (!FOTO_MIME_TYPES.includes(file.type)) return toast.error("Formatos permitidos: JPG, PNG o WebP");
+    if (file.size > FOTO_MAX_BYTES) return toast.error("La imagen no puede superar los 5 MB");
+    setFotoSaving(true);
+    try {
+      setUser(await authApi.uploadFoto(file));
+      toast.success("Foto de perfil actualizada");
+    } catch (err) {
+      toast.error(getApiErrorMessage(err, "No se pudo subir la foto"));
+    } finally {
+      setFotoSaving(false);
+    }
+  };
+
+  const quitarFoto = async () => {
+    setFotoSaving(true);
+    try {
+      setUser(await authApi.deleteFoto());
+      toast.success("Foto de perfil eliminada");
+    } catch (err) {
+      toast.error(getApiErrorMessage(err, "No se pudo quitar la foto"));
+    } finally {
+      setFotoSaving(false);
+    }
+  };
 
   const save = async (e: FormEvent) => {
     e.preventDefault();
@@ -107,10 +141,27 @@ export default function PerfilPage() {
         <div className="space-y-6">
           <Card>
             <div className="flex items-center gap-3">
-              <Avatar name={fullName(user)} size="lg" />
+              <div className="relative shrink-0">
+                <Avatar name={fullName(user)} src={user.foto_url} size="lg" />
+                <button
+                  type="button"
+                  onClick={() => fotoInputRef.current?.click()}
+                  disabled={fotoSaving}
+                  aria-label="Cambiar foto de perfil"
+                  className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-brand-600 text-white shadow-sm transition hover:bg-brand-700 disabled:opacity-60"
+                >
+                  <Camera className="h-3.5 w-3.5" />
+                </button>
+                <input ref={fotoInputRef} type="file" accept="image/jpeg,image/jpg,image/png,image/webp" className="hidden" onChange={onFotoChange} />
+              </div>
               <div className="min-w-0">
                 <p className="truncate font-bold">{fullName(user)}</p>
                 <p className="truncate text-sm text-stone-500">{user.email}</p>
+                {user.foto_url && (
+                  <button type="button" onClick={quitarFoto} disabled={fotoSaving} className="mt-1 flex items-center gap-1 text-xs text-stone-500 hover:text-red-600 disabled:opacity-60">
+                    <X className="h-3 w-3" /> Quitar foto
+                  </button>
+                )}
               </div>
             </div>
             <div className="mt-3 flex flex-wrap gap-1.5">{user.roles.map((r) => <RoleBadge key={r} role={r} />)}</div>
