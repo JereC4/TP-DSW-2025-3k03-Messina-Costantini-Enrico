@@ -1,10 +1,11 @@
-import { forwardRef, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
+import { forwardRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BadgeCheck, Loader2, Star } from "lucide-react";
 import { cn } from "../../lib/cn";
 import type { SolicitudEstado } from "../../api/types";
 import { ESTADO_LABELS } from "../../api/types";
+import { Lightbox } from "./Lightbox";
 
 /* ───────────────────────── Botones ───────────────────────── */
 
@@ -306,9 +307,20 @@ export function Pagination({ page, totalPages, onChange, total }: { page: number
   );
 }
 
-export function Avatar({ name, src, className, size = "md" }: { name: string; src?: string | null; className?: string; size?: "sm" | "md" | "lg" }) {
+export function Avatar({ name, src, className, size = "md", zoomable = false }: { name: string; src?: string | null; className?: string; size?: "sm" | "md" | "lg"; zoomable?: boolean }) {
   const sz = size === "lg" ? "h-14 w-14 text-lg" : size === "sm" ? "h-8 w-8 text-xs" : "h-10 w-10 text-sm";
-  if (src) return <img src={src} alt={name} className={cn("shrink-0 rounded-full object-cover", sz, className)} />;
+  const [open, setOpen] = useState(false);
+  if (src) {
+    if (!zoomable) return <img src={src} alt={name} className={cn("shrink-0 rounded-full object-cover", sz, className)} />;
+    return (
+      <>
+        <button type="button" onClick={() => setOpen(true)} className={cn("shrink-0 cursor-zoom-in rounded-full", sz, className)} aria-label={`Ver foto de ${name} en grande`}>
+          <img src={src} alt={name} className="h-full w-full rounded-full object-cover" />
+        </button>
+        <Lightbox src={src} alt={name} open={open} onClose={() => setOpen(false)} />
+      </>
+    );
+  }
   const initials = name.split(" ").filter(Boolean).slice(0, 2).map((p) => p[0]?.toUpperCase()).join("");
   return <span className={cn("inline-flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-brand-700 font-bold text-white", sz, className)}>{initials || "?"}</span>;
 }
