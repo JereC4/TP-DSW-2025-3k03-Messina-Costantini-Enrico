@@ -13,3 +13,13 @@ public/dist
 # Playwright
 test-results
 playwright-report
+
+# Local editor state
+workbench.state.json
+
+# Local AI and design tooling
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+.impeccable/
+.playwright-cli/
