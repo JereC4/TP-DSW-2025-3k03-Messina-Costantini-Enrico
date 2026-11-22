@@ -34,6 +34,8 @@ git log --merges --format='%s'
 | 2026-09-11 | Auditoría, reproducibilidad y mejoras de producto | [2026-09-11.md](2026-09-11.md) |
 | 2026-09-12 | Cercanía por distancia y cierre de la gestión | [2026-09-12.md](2026-09-12.md) |
 | 2026-09-17 | Ajustes de interfaz en el registro y el catálogo | [2026-09-17.md](2026-09-17.md) |
+| 2026-09-23 | Foto de perfil | [2026-09-23.md](2026-09-23.md) |
+| 2026-11-22 | Cierre de la entrega | [2026-11-22.md](2026-11-22.md) |
 
 El seguimiento de tareas está en [../tracking.md](../tracking.md).
 

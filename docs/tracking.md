@@ -67,6 +67,7 @@ Leyenda: ✅ hecho · ⏳ pendiente
 | 24 | Confirmación del email en el registro | `claude/laughing-johnson-r080oy` | #23 | Jeremías | ✅ |
 | 25 | Íconos propios por categoría en los servicios destacados | `claude/laughing-johnson-r080oy` | #23 | Jeremías | ✅ |
 | 26 | Foto de fondo por categoría en las tarjetas del catálogo | `claude/laughing-johnson-r080oy` | #24 | Jeremías | ✅ |
+| 39 | Foto de perfil con Supabase Storage y vista ampliada | `claude/laughing-johnson-r080oy` | #27, #28 | Jeremías | ✅ |
 
 ### Calidad, documentación y despliegue
 
@@ -82,6 +83,7 @@ Leyenda: ✅ hecho · ⏳ pendiente
 | 34 | Análisis estático del backend y modo estricto completo | `chore/lint-auditoria` | #15 | Tiziano | ✅ |
 | 35 | Todo el sistema con un comando, con Docker Compose | `chore/docker-compose` | #18 | Tiziano | ✅ |
 | 36 | Minutas y seguimiento del proyecto | `docs/gestion` | #22 | Tiziano | ✅ |
+| 40 | Cierre de la entrega: URLs de Vercel y Render, documentación al día | `docs/cierre-entrega` | #30 | Tiziano | ✅ |
 | 37 | Video de demostración | — | — | Ambos | ⏳ |
 | 38 | Envío del formulario de la cátedra | — | — | Tiziano | ⏳ |
 

@@ -9,7 +9,7 @@ Plataforma que conecta **productores** agropecuarios con **contratistas** rurale
 ## Links
 * [Propuesta del TP](proposal.md)
 * [Documentación de entrega](docs/README.md) — modelo, instalación, API, tests, deploy, minutas
-* App: https://agroapp.dev · API: https://api.agroapp.dev · Swagger: https://api.agroapp.dev/docs
+* App: https://tp-dsw-2025-3k03-messina-costantini.vercel.app · API: https://tp-dsw-2025-3k03-messina-costantini.onrender.com · Swagger: https://tp-dsw-2025-3k03-messina-costantini.onrender.com/docs
 * Guía detallada de instalación: [docs/instalacion.md](docs/instalacion.md)
 
 ## Stack

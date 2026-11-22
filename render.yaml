@@ -21,7 +21,7 @@ services:
       - key: JWT_EXPIRES_IN
         value: 8h
       - key: CORS_ORIGIN
-        value: https://agroapp.dev,https://www.agroapp.dev
+        value: https://tp-dsw-2025-3k03-messina-costantini.vercel.app
       - key: DATABASE_URL
         sync: false # URL de Aiven con ?ssl-mode=REQUIRED
       - key: JWT_SECRET

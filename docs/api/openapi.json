@@ -7,11 +7,11 @@
   },
   "servers": [
     {
-      "url": "https://api.agroapp.dev",
+      "url": "https://tp-dsw-2025-3k03-messina-costantini.onrender.com",
       "description": "Servidor actual"
     },
     {
-      "url": "https://api.agroapp.dev",
+      "url": "https://tp-dsw-2025-3k03-messina-costantini.onrender.com",
       "description": "Producción"
     }
   ],

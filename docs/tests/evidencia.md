@@ -1,6 +1,8 @@
 # Evidencia de ejecución de tests automáticos
 
 Ejecutados el 2026-09-22 en Windows 11, Node 24, contra la base local (Docker Percona 8) con el seed cargado, sobre `main` con todo lo mergeado hasta el PR #24.
+
+**Re-ejecución del 2026-11-22**, sobre `main` hasta el PR #29 (incluye la foto de perfil, #27 y #28): backend unitarios **82/82** y componentes del frontend **24/24**, sin cambios en las cantidades. Las suites de integración y end-to-end corren además en el CI de cada PR, contra un MySQL 8 de servicio.
 Además, cada push y PR corre las suites de backend y frontend en GitHub Actions ([`.github/workflows/ci.yml`](../../.github/workflows/ci.yml)); ver la pestaña *Actions* del repo.
 
 ## Resumen
