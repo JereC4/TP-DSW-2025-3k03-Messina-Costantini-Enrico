@@ -4,8 +4,8 @@ La API REST se documenta con **OpenAPI 3.0**, generada automáticamente desde lo
 
 | Recurso | URL |
 |:-|:-|
-| Swagger UI (interactivo) | https://api.agroapp.dev/docs · local: http://localhost:3000/docs |
-| Documento OpenAPI (JSON) | https://api.agroapp.dev/docs/openapi.json |
+| Swagger UI (interactivo) | https://tp-dsw-2025-3k03-messina-costantini.onrender.com/docs · local: http://localhost:3000/docs |
+| Documento OpenAPI (JSON) | https://tp-dsw-2025-3k03-messina-costantini.onrender.com/docs/openapi.json |
 | Copia versionada en el repo | [openapi.json](openapi.json) |
 
 Regenerar la copia del repo: `pnpm --filter server docs:export`.

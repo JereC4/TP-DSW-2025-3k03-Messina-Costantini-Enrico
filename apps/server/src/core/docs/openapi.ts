@@ -209,7 +209,7 @@ export function generateOpenApiDocument(serverUrl = "http://localhost:3000") {
     },
     servers: [
       { url: serverUrl, description: "Servidor actual" },
-      { url: "https://api.agroapp.dev", description: "Producción" },
+      { url: "https://tp-dsw-2025-3k03-messina-costantini.onrender.com", description: "Producción" },
     ],
     tags: [
       { name: "Auth" }, { name: "Usuarios" }, { name: "Provincias" }, { name: "Localidades" }, { name: "Categorías" }, { name: "Insumos" },

@@ -2,11 +2,14 @@
 
 | Componente | Proveedor | URL |
 |:-|:-|:-|
-| Frontend (React + Vite) | Vercel | https://agroapp.dev |
-| Backend (Express + Prisma) | Render (web service, plan free) | https://api.agroapp.dev |
-| Base de datos (MySQL 8) | Aiven (plan free) | `mysql-agroapp-agroapp.h.aivencloud.com:12600`, base `defaultdb`, SSL requerido |
-| Dominio | Name.com | `agroapp.dev` |
-| Docs de la API | Swagger UI servido por el backend | https://api.agroapp.dev/docs |
+| Frontend (React + Vite) | Vercel | https://tp-dsw-2025-3k03-messina-costantini.vercel.app |
+| Backend (Express + Prisma) | Render (web service, plan free) | https://tp-dsw-2025-3k03-messina-costantini.onrender.com |
+| Base de datos (MySQL 8) | Aiven (plan free, ver nota) | `mysql-agroapp-agroapp.h.aivencloud.com:12600`, base `defaultdb`, SSL requerido |
+| Docs de la API | Swagger UI servido por el backend | https://tp-dsw-2025-3k03-messina-costantini.onrender.com/docs |
+
+> **Dominio.** Hasta noviembre de 2026 la app usó el dominio propio `agroapp.dev` (Name.com). No se renovó, así que desde entonces se usan las URLs que asignan Vercel y Render, que no dependen de ningún dominio.
+>
+> **Aiven.** Aiven discontinúa el plan free de MySQL: los servicios free se apagan el **21 de diciembre de 2026** y después se borran. Como la base solo tiene los datos de demostración, se puede recrear en cualquier MySQL 8 con `pnpm db:deploy` y `pnpm db:seed` (§ 1) y cambiar `DATABASE_URL` en Render.
 
 ## Credenciales de demo
 
@@ -76,12 +79,12 @@ Variables de entorno:
 | `DATABASE_URL` | URI de Aiven con `?ssl-mode=REQUIRED` |
 | `JWT_SECRET` | cadena aleatoria larga (Render → *Generate*) |
 | `JWT_EXPIRES_IN` | `8h` |
-| `CORS_ORIGIN` | `https://agroapp.dev,https://www.agroapp.dev` |
+| `CORS_ORIGIN` | `https://tp-dsw-2025-3k03-messina-costantini.vercel.app` |
 | `SUPABASE_URL` | Project URL de Supabase (ver § Supabase Storage abajo) |
 | `SUPABASE_SECRET_KEY` | Secret key de Supabase (nunca la `publishable`/`anon`) |
 | `SUPABASE_BUCKET` | `avatars` (opcional; es el valor por defecto) |
 
-`PORT` la define Render. Dominio: **Settings → Custom domains → Add** `api.agroapp.dev`.
+`PORT` la define Render. URL pública: `https://tp-dsw-2025-3k03-messina-costantini.onrender.com` (subdominio de Render, sin dominio propio).
 
 > Plan free: el servicio se duerme tras 15 minutos sin tráfico y la primera request tarda ~30 s. Abrir `/health` antes de la defensa.
 
@@ -104,26 +107,22 @@ La foto de perfil de productores y contratistas se guarda en un bucket de [Supab
 | Build command | `pnpm build` |
 | Output directory | `dist` |
 
-Variable de entorno (Production y Preview): `VITE_API_URL=https://api.agroapp.dev`. `apps/web/vercel.json` tiene el rewrite SPA. Dominios: `agroapp.dev` y `www.agroapp.dev`.
+Variable de entorno (Production y Preview): `VITE_API_URL=https://tp-dsw-2025-3k03-messina-costantini.onrender.com`. `apps/web/vercel.json` tiene el rewrite SPA. URL pública: `https://tp-dsw-2025-3k03-messina-costantini.vercel.app` (dominio de Vercel).
 
-## 4. DNS (Name.com)
+## 4. Dominio propio (opcional)
 
-| Host | Tipo | Valor | Para |
-|:-|:-|:-|:-|
-| `@` | A | `76.76.21.21` | Vercel |
-| `www` | CNAME | `cname.vercel-dns.com` | Vercel |
-| `api` | CNAME | `<nombre>.onrender.com` | Render |
+No hace falta: la app funciona con las URLs de Vercel y Render. Para volver a usar un dominio propio, agregarlo en Vercel (**Settings → Domains**) y en Render (**Settings → Custom domains**), crear los registros DNS que indica cada uno y sumar el dominio nuevo a `CORS_ORIGIN` en Render y a `VITE_API_URL` en Vercel.
 
 ## 5. Smoke test de producción
 
 ```bash
-curl https://api.agroapp.dev/health
-curl -X POST https://api.agroapp.dev/auth/login -H "Content-Type: application/json" \
+curl https://tp-dsw-2025-3k03-messina-costantini.onrender.com/health
+curl -X POST https://tp-dsw-2025-3k03-messina-costantini.onrender.com/auth/login -H "Content-Type: application/json" \
   -d '{"email":"productor@agroapp.dev","password":"Productor123!"}'
-curl "https://api.agroapp.dev/contratistas?pageSize=1"
+curl "https://tp-dsw-2025-3k03-messina-costantini.onrender.com/contratistas?pageSize=1"
 ```
 
-Desde el navegador: entrar a https://agroapp.dev como productor, abrir un servicio y solicitarlo; entrar como contratista y aceptarlo.
+Desde el navegador: entrar a https://tp-dsw-2025-3k03-messina-costantini.vercel.app como productor, abrir un servicio y solicitarlo; entrar como contratista y aceptarlo.
 
 ## Actualizar producción
 

@@ -1,6 +1,6 @@
 # Guion del video de demo (7 a 9 minutos)
 
-Grabar pantalla + voz sobre https://agroapp.dev con los usuarios demo ([deploy.md](deploy.md)). Antes de grabar, abrir https://api.agroapp.dev/health para despertar el backend (plan free de Render).
+Grabar pantalla + voz sobre https://tp-dsw-2025-3k03-messina-costantini.vercel.app con los usuarios demo ([deploy.md](deploy.md)). Narran los dos: Jeremías los bloques del contratista (2 y 4) y Tiziano los del productor (3 y 5). Antes de grabar, abrir https://tp-dsw-2025-3k03-messina-costantini.onrender.com/health para despertar el backend (plan free de Render).
 
 ## 0. Presentación (30 s)
 - Quiénes somos, materia, comisión. Qué resuelve AgroApp: conecta productores con contratistas rurales, con precio por hectárea y seguimiento del trabajo.
@@ -15,6 +15,7 @@ Grabar pantalla + voz sobre https://agroapp.dev con los usuarios demo ([deploy.m
 
 ## 2. Contratista publica un servicio (1 min)
 - Ingresar como `contratista@agroapp.dev`. Mostrar el dashboard: pendientes, en curso, reputación y el gráfico de los últimos seis meses.
+- **Mi perfil**: subir una foto de perfil y hacer click para verla en grande (#27 y #28). La foto aparece también en los contactos de una solicitud.
 - **Mis servicios → Publicar servicio**: "Fertilización con urea", categoría Fertilización, precio 15000. *(CUU 1)*
 - **Precios** del servicio: cargar un precio nuevo con fecha de hoy y otro programado a futuro; ver el "vigente". *(CRUD dependiente Precio)*
 - Desactivar un servicio y mostrar que desaparece del catálogo. Cerrar sesión.
@@ -30,7 +31,7 @@ Grabar pantalla + voz sobre https://agroapp.dev con los usuarios demo ([deploy.m
 ## 4. Contratista gestiona (1 min 30 s)
 - Ingresar como contratista: la campana de notificaciones muestra el aviso de la solicitud nueva; abrirlo. → **Aceptar** eligiendo fecha de inicio. Mostrar "Próximos trabajos" en el dashboard y, desde la solicitud, la ficha del campo con las solicitudes anteriores.
 - Volver a la solicitud → **Marcar completada**. Rechazar otra pendiente con motivo. *(CUU 3)*
-- En Swagger (https://api.agroapp.dev/docs): Authorize con el token, ejecutar `PATCH /solicitudes/{id}/estado` con una transición inválida y mostrar el 409 `INVALID_TRANSITION`.
+- En Swagger (https://tp-dsw-2025-3k03-messina-costantini.onrender.com/docs): Authorize con el token, ejecutar `PATCH /solicitudes/{id}/estado` con una transición inválida y mostrar el 409 `INVALID_TRANSITION`.
 
 ## 5. Productor valora (45 s)
 - Ingresar como productor: la campana muestra los avisos de aceptada y completada. Abrir la solicitud completada, ver el historial con cada paso y su autor, y dar 5 estrellas con comentario. *(CUU 4)*

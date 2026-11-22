@@ -11,5 +11,5 @@ const here = dirname(fileURLToPath(import.meta.url));
 const out = resolve(here, "../../../docs/api/openapi.json");
 
 mkdirSync(dirname(out), { recursive: true });
-writeFileSync(out, JSON.stringify(generateOpenApiDocument("https://api.agroapp.dev"), null, 2) + "\n");
+writeFileSync(out, JSON.stringify(generateOpenApiDocument("https://tp-dsw-2025-3k03-messina-costantini.onrender.com"), null, 2) + "\n");
 console.log(`OpenAPI exportado a ${out}`);

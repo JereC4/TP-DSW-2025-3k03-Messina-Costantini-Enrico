@@ -1,12 +1,15 @@
 # Pendientes y próximos pasos
 
-Estado al 2026-09-22. Lo que falta para cerrar la entrega, en orden.
+Estado al 2026-11-22. Lo que falta para cerrar la entrega, en orden.
 
 ## Para la defensa (obligatorio)
 
 - [x] **Registro de coordinación** en [`minutas/`](minutas/), una entrada por hito reconstruida del historial del repositorio, y **[`tracking.md`](tracking.md)** con la metodología y el estado de cada tarea.
+- [x] **Deploy sin dominio propio**: `agroapp.dev` no se renovó; la app queda en https://tp-dsw-2025-3k03-messina-costantini.vercel.app y la API en https://tp-dsw-2025-3k03-messina-costantini.onrender.com ([deploy.md](deploy.md)).
+- [x] **Base de producción** al día: las 6 migraciones aplicadas en Aiven, incluida la de la foto de perfil (#27).
+- [ ] Resolver el fin del plan free de Aiven MySQL el **2026-12-21** si la defensa es después ([deploy.md](deploy.md)).
 - [ ] **Video** siguiendo [video-guion.md](video-guion.md); link en [video.md](video.md).
-- [x] Números de PR completos en [pull-requests.md](pull-requests.md) y [tracking.md](tracking.md), incluidos los aportes de Jeremías (#23 y #24).
+- [x] Números de PR completos en [pull-requests.md](pull-requests.md) y [tracking.md](tracking.md), incluidos los aportes de Jeremías (#23, #24, #27 y #28).
 - [ ] Enviar el formulario de la cátedra con: repo, `docs/README.md`, video, links de deploy, credenciales y contacto.
 
 ## Después de la defensa

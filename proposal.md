@@ -9,7 +9,7 @@
 * [fullstack app (monorepo)](https://github.com/JereC4/TP-DSW-2025-3k03-Messina-Costantini-Enrico)
 * Pull requests: [docs/pull-requests.md](docs/pull-requests.md)
 * Documentación: [docs/README.md](docs/README.md)
-* Deploy: https://agroapp.dev · API: https://api.agroapp.dev · Swagger: https://api.agroapp.dev/docs
+* Deploy: https://tp-dsw-2025-3k03-messina-costantini.vercel.app · API: https://tp-dsw-2025-3k03-messina-costantini.onrender.com · Swagger: https://tp-dsw-2025-3k03-messina-costantini.onrender.com/docs
 
 ## Tema
 ### Descripción
