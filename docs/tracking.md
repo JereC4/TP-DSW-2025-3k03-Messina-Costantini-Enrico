@@ -84,7 +84,7 @@ Leyenda: ✅ hecho · ⏳ pendiente
 | 35 | Todo el sistema con un comando, con Docker Compose | `chore/docker-compose` | #18 | Tiziano | ✅ |
 | 36 | Minutas y seguimiento del proyecto | `docs/gestion` | #22 | Tiziano | ✅ |
 | 40 | Cierre de la entrega: URLs de Vercel y Render, documentación al día | `docs/cierre-entrega` | #30 | Tiziano | ✅ |
-| 37 | Video de demostración | — | — | Ambos | ⏳ |
+| 37 | Video de demostración | `docs/video-link` | #31 | Ambos | ✅ |
 | 38 | Envío del formulario de la cátedra | — | — | Tiziano | ⏳ |
 
 El detalle de cada pull request está en [pull-requests.md](pull-requests.md), y el recorrido cronológico en [minutas/](minutas/).

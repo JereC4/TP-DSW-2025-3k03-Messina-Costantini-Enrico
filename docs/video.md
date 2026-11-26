@@ -1,5 +1,7 @@
 # Video de demo
 
-Pendiente de grabación (ver [video-guion.md](video-guion.md)).
+Link: https://youtu.be/75eZeyoaFtY (YouTube, no listado, 10:46)
 
-Link: *(completar al subirlo a YouTube como "no listado")*
+Recorre el caso de uso completo sobre el deploy: el contratista crea un
+servicio, el productor lo solicita, el contratista lo completa y el productor
+lo valora. Guion en [video-guion.md](video-guion.md).
